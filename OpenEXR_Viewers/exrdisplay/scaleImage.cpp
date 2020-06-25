@@ -65,7 +65,7 @@ scaleX (float f,
 	int &w, int &h,
 	int &dw, int &dh,
 	int &dx, int &dy,
-	Array<Rgba> &pixels)
+	Array<Rgbad> &pixels)
 {
     int dw1 = scaleInt (f, dw);
 
@@ -86,7 +86,7 @@ scaleX (float f,
     // Copy the pixels to a temporary array
     //
 
-    Array<Rgba> tmp (dw * dh);
+    Array<Rgbad> tmp (dw * dh);
     
     for (int i = 0; i < dw * dh; ++i)
 	tmp[i] = pixels[i];
@@ -111,9 +111,9 @@ scaleX (float f,
 
 	for (int y = 0; y < dh; ++y)
 	{
-	    const Rgba &ps = tmp [y * dw + xs];
-	    const Rgba &pt = tmp [y * dw + xt];
-	    Rgba &p = pixels[y * dw1 + x];
+	    const Rgbad &ps = tmp [y * dw + xs];
+	    const Rgbad &pt = tmp [y * dw + xt];
+	    Rgbad &p = pixels[y * dw1 + x];
 
 	    p.r = ps.r * s + pt.r * t;
 	    p.g = ps.g * s + pt.g * t;
@@ -131,7 +131,7 @@ scaleY (float f,
 	int &w, int &h, 
 	int &dw, int &dh,
 	int &dx, int &dy,
-	Array<Rgba> &pixels)
+	Array<Rgbad> &pixels)
 {
     int dh1 = scaleInt (f, dh);
 
@@ -152,7 +152,7 @@ scaleY (float f,
     // Copy the pixels to a temporary array
     //
 
-    Array<Rgba> tmp (dw * dh);
+    Array<Rgbad> tmp (dw * dh);
     
     for (int i = 0; i < dw * dh; ++i)
 	tmp[i] = pixels[i];
@@ -177,9 +177,9 @@ scaleY (float f,
 
 	for (int x = 0; x < dw; ++x)
 	{
-	    const Rgba &ps = tmp [ys * dw + x];
-	    const Rgba &pt = tmp [yt * dw + x];
-	    Rgba &p = pixels[y * dw + x];
+	    const Rgbad &ps = tmp [ys * dw + x];
+	    const Rgbad &pt = tmp [yt * dw + x];
+	    Rgbad &p = pixels[y * dw + x];
 
 	    p.r = ps.r * s + pt.r * t;
 	    p.g = ps.g * s + pt.g * t;
@@ -193,14 +193,14 @@ scaleY (float f,
 
 
 void
-normalizePixels (int dw, int dh, Array<Rgba> &pixels)
+normalizePixels (int dw, int dh, Array<Rgbad> &pixels)
 {
     float pMax = -IMATH::limits<float>::max ();
     float pMin =  IMATH::limits<float>::max ();
 
     for (int i = 0; i < dw * dh; ++i)
     {
-	const Rgba &p = pixels[i];
+	const Rgbad &p = pixels[i];
 
 	if (p.r.isFinite())
 	{
@@ -226,7 +226,7 @@ normalizePixels (int dw, int dh, Array<Rgba> &pixels)
 
     for (int i = 0; i < dw * dh; ++i)
     {
-	Rgba &p = pixels[i];
+	Rgbad &p = pixels[i];
 
 	if (p.r.isFinite())
 	    p.r = (p.r - pMin) / (pMax - pMin);
@@ -241,9 +241,9 @@ normalizePixels (int dw, int dh, Array<Rgba> &pixels)
 
 
 void
-swapPixels (int dw, int dh, Array<Rgba> &pixels)
+swapPixels (int dw, int dh, Array<Rgbad> &pixels)
 {
-    Array<Rgba> tmp (max (dw, dh));
+    Array<Rgbad> tmp (max (dw, dh));
 
     int dw2 = dw / 2;
     int dh2 = dh / 2;

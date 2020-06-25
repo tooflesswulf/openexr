@@ -92,10 +92,10 @@
 
 void	applyCtl (std::vector<std::string> transformNames,
 		  IMF::Header inHeader,
-		  const IMF::Array<IMF::Rgba> &inPixels,
+		  const IMF::Array<IMF::Rgbad> &inPixels,
 		  int w,
 		  int h,
-		  IMF::Array<IMF::Rgba> &outPixels);
+		  IMF::Array<IMF::Rgbad> &outPixels);
 
 
 //
@@ -106,10 +106,10 @@ void	applyCtl (std::vector<std::string> transformNames,
 //
 
 void	adjustChromaticities (const IMF::Header &header,
-			      const IMF::Array<IMF::Rgba> &inPixels,
+			      const IMF::Array<IMF::Rgbad> &inPixels,
 			      int w,
 			      int h,
-			      IMF::Array<IMF::Rgba> &outPixels);
+			      IMF::Array<IMF::Rgbad> &outPixels);
 
 
 //

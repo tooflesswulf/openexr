@@ -93,7 +93,10 @@ insertChannels (Header &header, RgbaChannels rgbaChannels)
     }
 
     if (rgbaChannels & WRITE_A)
-	ch.insert ("A", Channel (HALF, 1, 1));
+    	ch.insert ("A", Channel (HALF, 1, 1));
+
+    if (rgbaChannels & WRITE_D)
+        ch.insert ("D", Channel (HALF, 1, 1));
 
     header.channels() = ch;
 }
@@ -198,7 +201,7 @@ class RgbaOutputFile::ToYca: public Mutex
     void		setYCRounding (unsigned int roundY,
 	    			       unsigned int roundC);
 
-    void		setFrameBuffer (const Rgba *base,
+    void		setFrameBuffer (const Rgbad *base,
 					size_t xStride,
 					size_t yStride);
 
@@ -224,10 +227,10 @@ class RgbaOutputFile::ToYca: public Mutex
     LineOrder		_lineOrder;
     int			_currentScanLine;
     V3f			_yw;
-    Rgba *		_bufBase;
-    Rgba *		_buf[N];
-    Rgba *		_tmpBuf;
-    const Rgba *	_fbBase;
+    Rgbad *		_bufBase;
+    Rgbad *		_buf[N];
+    Rgbad *		_tmpBuf;
+    const Rgbad *	_fbBase;
     size_t		_fbXStride;
     size_t		_fbYStride;
     int			_roundY;
@@ -260,14 +263,14 @@ RgbaOutputFile::ToYca::ToYca (OutputFile &outputFile,
 
     _yw = ywFromHeader (_outputFile.header());
 
-    ptrdiff_t pad = cachePadding (_width * sizeof (Rgba)) / sizeof (Rgba);
+    ptrdiff_t pad = cachePadding (_width * sizeof (Rgbad)) / sizeof (Rgbad);
 
-    _bufBase = new Rgba[(_width + pad) * N];
+    _bufBase = new Rgbad[(_width + pad) * N];
 
     for (int i = 0; i < N; ++i)
 	_buf[i] = _bufBase + (i * (_width + pad));
 
-    _tmpBuf = new Rgba[_width + N - 1];
+    _tmpBuf = new Rgbad[_width + N - 1];
 
     _fbBase = 0;
     _fbXStride = 0;
@@ -295,7 +298,7 @@ RgbaOutputFile::ToYca::setYCRounding (unsigned int roundY,
 
 
 void
-RgbaOutputFile::ToYca::setFrameBuffer (const Rgba *base,
+RgbaOutputFile::ToYca::setFrameBuffer (const Rgbad *base,
 				       size_t xStride,
 				       size_t yStride)
 {
@@ -308,7 +311,7 @@ RgbaOutputFile::ToYca::setFrameBuffer (const Rgba *base,
 	    fb.insert ("Y",
 		       Slice (HALF,				// type
 			      (char *) &_tmpBuf[-_xMin].g,	// base
-			      sizeof (Rgba),			// xStride
+			      sizeof (Rgbad),			// xStride
 			      0,				// yStride
 			      1,				// xSampling
 			      1));				// ySampling
@@ -319,7 +322,7 @@ RgbaOutputFile::ToYca::setFrameBuffer (const Rgba *base,
 	    fb.insert ("RY",
 		       Slice (HALF,				// type
 			      (char *) &_tmpBuf[-_xMin].r,	// base
-			      sizeof (Rgba) * 2,		// xStride
+			      sizeof (Rgbad) * 2,		// xStride
 			      0,				// yStride
 			      2,				// xSampling
 			      2));				// ySampling
@@ -327,7 +330,7 @@ RgbaOutputFile::ToYca::setFrameBuffer (const Rgba *base,
 	    fb.insert ("BY",
 		       Slice (HALF,				// type
 			      (char *) &_tmpBuf[-_xMin].b,	// base
-			      sizeof (Rgba) * 2,		// xStride
+			      sizeof (Rgbad) * 2,		// xStride
 			      0,				// yStride
 			      2,				// xSampling
 			      2));				// ySampling
@@ -338,7 +341,7 @@ RgbaOutputFile::ToYca::setFrameBuffer (const Rgba *base,
 	    fb.insert ("A",
 		       Slice (HALF,				// type
 			      (char *) &_tmpBuf[-_xMin].a,	// base
-			      sizeof (Rgba),			// xStride
+			      sizeof (Rgbad),			// xStride
 			      0,				// yStride
 			      1,				// xSampling
 			      1));				// ySampling
@@ -515,7 +518,7 @@ RgbaOutputFile::ToYca::padTmpBuf ()
 void
 RgbaOutputFile::ToYca::rotateBuffers ()
 {
-    Rgba *tmp = _buf[0];
+    Rgbad *tmp = _buf[0];
 
     for (int i = 0; i < N - 1; ++i)
 	_buf[i] = _buf[i + 1];
@@ -528,7 +531,7 @@ void
 RgbaOutputFile::ToYca::duplicateLastBuffer ()
 {
     rotateBuffers();
-    memcpy (_buf[N - 1], _buf[N - 2], _width * sizeof (Rgba));
+    memcpy (_buf[N - 1], _buf[N - 2], _width * sizeof (Rgbad));
 }
 
 
@@ -536,7 +539,7 @@ void
 RgbaOutputFile::ToYca::duplicateSecondToLastBuffer ()
 {
     rotateBuffers();
-    memcpy (_buf[N - 1], _buf[N - 3], _width * sizeof (Rgba));
+    memcpy (_buf[N - 1], _buf[N - 3], _width * sizeof (Rgbad));
 }
 
 
@@ -544,7 +547,7 @@ void
 RgbaOutputFile::ToYca::decimateChromaVertAndWriteScanLine ()
 {
     if (_linesConverted & 1)
-	memcpy (_tmpBuf, _buf[N2], _width * sizeof (Rgba));
+	memcpy (_tmpBuf, _buf[N2], _width * sizeof (Rgbad));
     else
 	decimateChromaVert (_width, _buf, _tmpBuf);
 
@@ -653,7 +656,7 @@ RgbaOutputFile::~RgbaOutputFile ()
 
 
 void
-RgbaOutputFile::setFrameBuffer (const Rgba *base,
+RgbaOutputFile::setFrameBuffer (const Rgbad *base,
 				size_t xStride,
 				size_t yStride)
 {
@@ -664,15 +667,16 @@ RgbaOutputFile::setFrameBuffer (const Rgba *base,
     }
     else
     {
-	size_t xs = xStride * sizeof (Rgba);
-	size_t ys = yStride * sizeof (Rgba);
+	size_t xs = xStride * sizeof (Rgbad);
+	size_t ys = yStride * sizeof (Rgbad);
 
 	FrameBuffer fb;
 
 	fb.insert ("R", Slice (HALF, (char *) &base[0].r, xs, ys));
 	fb.insert ("G", Slice (HALF, (char *) &base[0].g, xs, ys));
 	fb.insert ("B", Slice (HALF, (char *) &base[0].b, xs, ys));
-	fb.insert ("A", Slice (HALF, (char *) &base[0].a, xs, ys));
+    fb.insert ("A", Slice (HALF, (char *) &base[0].a, xs, ys));
+    fb.insert ("D", Slice (HALF, (char *) &base[0].d, xs, ys));
 
 	_outputFile->setFrameBuffer (fb);
     }
@@ -811,10 +815,10 @@ class RgbaInputFile::FromYca: public Mutex
      FromYca (InputFile &inputFile, RgbaChannels rgbaChannels);
     ~FromYca ();
 
-    void		setFrameBuffer (Rgba *base,
-					size_t xStride,
-					size_t yStride,
-					const string &channelNamePrefix);
+    void		setFrameBuffer (Rgbad *base,
+                                size_t xStride,
+                                size_t yStride,
+                                const string &channelNamePrefix);
 
     void		readPixels (int scanLine1, int scanLine2);
 
@@ -823,7 +827,7 @@ class RgbaInputFile::FromYca: public Mutex
     void		readPixels (int scanLine);
     void		rotateBuf1 (int d);
     void		rotateBuf2 (int d);
-    void		readYCAScanLine (int y, Rgba buf[]);
+    void		readYCAScanLine (int y, Rgbad buf[]);
     void		padTmpBuf ();
 
     InputFile &		_inputFile;
@@ -836,11 +840,11 @@ class RgbaInputFile::FromYca: public Mutex
     int			_currentScanLine;
     LineOrder		_lineOrder;
     V3f			_yw;
-    Rgba *		_bufBase;
-    Rgba *		_buf1[N + 2];
-    Rgba *		_buf2[3];
-    Rgba *		_tmpBuf;
-    Rgba *		_fbBase;
+    Rgbad *		_bufBase;
+    Rgbad *		_buf1[N + 2];
+    Rgbad *		_buf2[3];
+    Rgbad *		_tmpBuf;
+    Rgbad *		_fbBase;
     size_t		_fbXStride;
     size_t		_fbYStride;
 };
@@ -864,9 +868,9 @@ RgbaInputFile::FromYca::FromYca (InputFile &inputFile,
     _lineOrder = _inputFile.header().lineOrder();
     _yw = ywFromHeader (_inputFile.header());
 
-    ptrdiff_t pad = cachePadding (_width * sizeof (Rgba)) / sizeof (Rgba);
+    ptrdiff_t pad = cachePadding (_width * sizeof (Rgbad)) / sizeof (Rgbad);
 
-    _bufBase = new Rgba[(_width + pad) * (N + 2 + 3)];
+    _bufBase = new Rgbad[(_width + pad) * (N + 2 + 3)];
 
     for (int i = 0; i < N + 2; ++i)
 	_buf1[i] = _bufBase + (i * (_width + pad));
@@ -874,7 +878,7 @@ RgbaInputFile::FromYca::FromYca (InputFile &inputFile,
     for (int i = 0; i < 3; ++i)
 	_buf2[i] = _bufBase + ((i + N + 2) * (_width + pad));
 
-    _tmpBuf = new Rgba[_width + N - 1];
+    _tmpBuf = new Rgbad[_width + N - 1];
 
     _fbBase = 0;
     _fbXStride = 0;
@@ -890,10 +894,10 @@ RgbaInputFile::FromYca::~FromYca ()
 
 
 void
-RgbaInputFile::FromYca::setFrameBuffer (Rgba *base,
-					size_t xStride,
-					size_t yStride,
-					const string &channelNamePrefix)
+RgbaInputFile::FromYca::setFrameBuffer (Rgbad *base,
+                                        size_t xStride,
+                                        size_t yStride,
+                                        const string &channelNamePrefix)
 {
     if (_fbBase == 0)
     {
@@ -902,7 +906,7 @@ RgbaInputFile::FromYca::setFrameBuffer (Rgba *base,
 	fb.insert (channelNamePrefix + "Y",
 		   Slice (HALF,					// type
 			  (char *) &_tmpBuf[N2 - _xMin].g,	// base
-			  sizeof (Rgba),			// xStride
+			  sizeof (Rgbad),			// xStride
 			  0,					// yStride
 			  1,					// xSampling
 			  1,					// ySampling
@@ -913,7 +917,7 @@ RgbaInputFile::FromYca::setFrameBuffer (Rgba *base,
 	    fb.insert (channelNamePrefix + "RY",
 		       Slice (HALF,				// type
 			      (char *) &_tmpBuf[N2 - _xMin].r,	// base
-			      sizeof (Rgba) * 2,		// xStride
+			      sizeof (Rgbad) * 2,		// xStride
 			      0,				// yStride
 			      2,				// xSampling
 			      2,				// ySampling
@@ -922,7 +926,7 @@ RgbaInputFile::FromYca::setFrameBuffer (Rgba *base,
 	    fb.insert (channelNamePrefix + "BY",
 		       Slice (HALF,				// type
 			      (char *) &_tmpBuf[N2 - _xMin].b,	// base
-			      sizeof (Rgba) * 2,		// xStride
+			      sizeof (Rgbad) * 2,		// xStride
 			      0,				// yStride
 			      2,				// xSampling
 			      2,				// ySampling
@@ -932,7 +936,7 @@ RgbaInputFile::FromYca::setFrameBuffer (Rgba *base,
 	fb.insert (channelNamePrefix + "A",
 		   Slice (HALF,					// type
 			  (char *) &_tmpBuf[N2 - _xMin].a,	// base
-			  sizeof (Rgba),			// xStride
+			  sizeof (Rgbad),			// xStride
 			  0,					// yStride
 			  1,					// xSampling
 			  1,					// ySampling
@@ -1082,7 +1086,7 @@ RgbaInputFile::FromYca::rotateBuf1 (int d)
 {
     d = modp (d, N + 2);
 
-    Rgba *tmp[N + 2];
+    Rgbad *tmp[N + 2];
 
     for (int i = 0; i < N + 2; ++i)
 	tmp[i] = _buf1[i];
@@ -1097,7 +1101,7 @@ RgbaInputFile::FromYca::rotateBuf2 (int d)
 {
     d = modp (d, 3);
 
-    Rgba *tmp[3];
+    Rgbad *tmp[3];
 
     for (int i = 0; i < 3; ++i)
 	tmp[i] = _buf2[i];
@@ -1108,7 +1112,7 @@ RgbaInputFile::FromYca::rotateBuf2 (int d)
 
 
 void
-RgbaInputFile::FromYca::readYCAScanLine (int y, Rgba *buf)
+RgbaInputFile::FromYca::readYCAScanLine (int y, Rgbad *buf)
 {
     //
     // Clamp y.
@@ -1141,7 +1145,7 @@ RgbaInputFile::FromYca::readYCAScanLine (int y, Rgba *buf)
 
     if (y & 1)
     {
-	memcpy (buf, _tmpBuf + N2, _width * sizeof (Rgba));
+	memcpy (buf, _tmpBuf + N2, _width * sizeof (Rgbad));
     }
     else
     {
@@ -1224,7 +1228,7 @@ RgbaInputFile::~RgbaInputFile ()
 
 
 void	
-RgbaInputFile::setFrameBuffer (Rgba *base, size_t xStride, size_t yStride)
+RgbaInputFile::setFrameBuffer (Rgbad *base, size_t xStride, size_t yStride)
 {
     if (_fromYca)
     {
@@ -1233,8 +1237,8 @@ RgbaInputFile::setFrameBuffer (Rgba *base, size_t xStride, size_t yStride)
     }
     else
     {
-	size_t xs = xStride * sizeof (Rgba);
-	size_t ys = yStride * sizeof (Rgba);
+	size_t xs = xStride * sizeof (Rgbad);
+	size_t ys = yStride * sizeof (Rgbad);
 
 	FrameBuffer fb;
 

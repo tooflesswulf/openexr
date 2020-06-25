@@ -112,19 +112,19 @@ class IMF_EXPORT RgbaLut
     // Apply the table to data[0], data[stride] ... data[(nData-1) * stride]
     //----------------------------------------------------------------------
 
-    void apply (Rgba *data,
-		int nData,
-		int stride = 1) const;
+    void apply (Rgbad *data,
+                int nData,
+                int stride = 1) const;
 
 
     //-----------------------------------------------------------------------
     // Apply the table to a frame buffer (see RgbaOutpuFile.setFrameBuffer())
     //-----------------------------------------------------------------------
 
-    void apply (Rgba *base,
-		int xStride,
-		int yStride,
-		const IMATH_NAMESPACE::Box2i &dataWindow) const;
+    void apply (Rgbad *base,
+                int xStride,
+                int yStride,
+                const IMATH_NAMESPACE::Box2i &dataWindow) const;
 
   private:
 

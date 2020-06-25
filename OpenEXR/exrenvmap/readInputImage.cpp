@@ -112,7 +112,7 @@ readSingleImage (const char inFileName[],
                     V2i (dw.max.x, dw.max.y + pb));
     
     image.resize (type, paddedDw);
-    Array2D<Rgba> &pixels = image.pixels();
+    Array2D<Rgbad> &pixels = image.pixels();
 
     in.setFrameBuffer (&pixels[-paddedDw.min.y][-paddedDw.min.x], 1, w);
     in.readPixels (dw.min.y, dw.max.y);
@@ -176,7 +176,7 @@ readSixImages (const char inFileName[],
     const Box2i imageDw (V2i (0, 0), V2i (w - 1, 6 * h - 1));
 
     image.resize (ENVMAP_CUBE, imageDw);
-    Rgba *pixels = &(image.pixels()[0][0]);
+    Rgbad *pixels = &(image.pixels()[0][0]);
 
     for (int i = 0; i < 6; ++i)
     {

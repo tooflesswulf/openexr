@@ -69,13 +69,13 @@ using namespace IMATH_NAMESPACE;
 namespace {
 
 void
-fillPixels (Array2D<Rgba> &pixels, int w, int h)
+fillPixels (Array2D<Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = 0.5 + 0.5 * sin (0.1 * x + 0.1 * y);
 	    p.g = 0.5 + 0.5 * sin (0.1 * x + 0.2 * y);
@@ -90,7 +90,7 @@ void
 writeImage (const char fileName[],
 	    int width,
 	    int height,
-	    const Array2D<Rgba> &pixels,
+	    const Array2D<Rgbad> &pixels,
             int parts,
 	    Compression comp)
 {
@@ -128,10 +128,10 @@ writeImage (const char fileName[],
         }
         MultiPartOutputFile out(fileName,&headers[0],parts);
         FrameBuffer f;
-        f.insert("R",Slice(HALF,(char *) &(pixels[0][0].r),sizeof(Rgba),width*sizeof(Rgba)));
-        f.insert("G",Slice(HALF,(char *) &(pixels[0][0].g),sizeof(Rgba),width*sizeof(Rgba)));
-        f.insert("B",Slice(HALF,(char *) &(pixels[0][0].b),sizeof(Rgba),width*sizeof(Rgba)));
-        f.insert("A",Slice(HALF,(char *) &(pixels[0][0].a),sizeof(Rgba),width*sizeof(Rgba)));
+        f.insert("R",Slice(HALF, (char *) &(pixels[0][0].r), sizeof(Rgbad), width * sizeof(Rgbad)));
+        f.insert("G",Slice(HALF, (char *) &(pixels[0][0].g), sizeof(Rgbad), width * sizeof(Rgbad)));
+        f.insert("B",Slice(HALF, (char *) &(pixels[0][0].b), sizeof(Rgbad), width * sizeof(Rgbad)));
+        f.insert("A",Slice(HALF, (char *) &(pixels[0][0].a), sizeof(Rgbad), width * sizeof(Rgbad)));
         
         for(int i=0;i<parts;i++)
         {
@@ -154,7 +154,7 @@ readImage (const char fileName[])
 
     try
     {
-        // first , test Rgba interface
+        // first , test Rgbad interface
         RgbaInputFile in (fileName);
         const Box2i &dw = in.dataWindow();
         
@@ -164,7 +164,7 @@ readImage (const char fileName[])
         if (w > (1 << 24))
             return;
         
-        Array<Rgba> pixels (w);
+        Array<Rgbad> pixels (w);
         in.setFrameBuffer (&pixels[-dx], 1, 0);
         
         for (int y = dw.min.y; y <= dw.max.y; ++y)
@@ -189,12 +189,12 @@ readImage (const char fileName[])
             if (w > (1 << 24))
                 return;
             
-            Array<Rgba> pixels (w);
+            Array<Rgbad> pixels (w);
             FrameBuffer i;
-            i.insert("R",Slice(HALF,(char *)&(pixels[-dx].r),sizeof(Rgba),0));
-            i.insert("G",Slice(HALF,(char *)&(pixels[-dx].g),sizeof(Rgba),0));
-            i.insert("B",Slice(HALF,(char *)&(pixels[-dx].b),sizeof(Rgba),0));
-            i.insert("A",Slice(HALF,(char *)&(pixels[-dx].a),sizeof(Rgba),0));
+            i.insert("R",Slice(HALF, (char *)&(pixels[-dx].r), sizeof(Rgbad), 0));
+            i.insert("G",Slice(HALF, (char *)&(pixels[-dx].g), sizeof(Rgbad), 0));
+            i.insert("B",Slice(HALF, (char *)&(pixels[-dx].b), sizeof(Rgbad), 0));
+            i.insert("A",Slice(HALF, (char *)&(pixels[-dx].a), sizeof(Rgbad), 0));
             
             in.setFrameBuffer (i);
             for (int y = dw.min.y; y <= dw.max.y; ++y)
@@ -223,7 +223,7 @@ fuzzScanLines (int numThreads, Rand48 &random)
     const int W = 217;
     const int H = 197;
 
-    Array2D<Rgba> pixels (H, W);
+    Array2D<Rgbad> pixels (H, W);
     fillPixels (pixels, W, H);
 
     const char *goodFile = IMF_TMP_DIR "imf_test_scanline_file_fuzz_good.exr";

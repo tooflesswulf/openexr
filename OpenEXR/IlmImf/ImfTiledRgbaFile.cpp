@@ -159,7 +159,7 @@ class TiledRgbaOutputFile::ToYa: public Mutex
 
      ToYa (TiledOutputFile &outputFile, RgbaChannels rgbaChannels);
 
-     void	setFrameBuffer (const Rgba *base,
+     void	setFrameBuffer (const Rgbad *base,
 				size_t xStride,
 				size_t yStride);
 
@@ -172,8 +172,8 @@ class TiledRgbaOutputFile::ToYa: public Mutex
      unsigned int	_tileXSize;
      unsigned int	_tileYSize;
      V3f		_yw;
-     Array2D <Rgba>	_buf;
-     const Rgba *	_fbBase;
+     Array2D <Rgbad>	_buf;
+     const Rgbad *	_fbBase;
      size_t		_fbXStride;
      size_t		_fbYStride;
 };
@@ -199,7 +199,7 @@ TiledRgbaOutputFile::ToYa::ToYa (TiledOutputFile &outputFile,
 
 
 void
-TiledRgbaOutputFile::ToYa::setFrameBuffer (const Rgba *base,
+TiledRgbaOutputFile::ToYa::setFrameBuffer (const Rgbad *base,
 					   size_t xStride,
 					   size_t yStride)
 {
@@ -243,13 +243,13 @@ TiledRgbaOutputFile::ToYa::writeTile (int dx, int dy, int lx, int ly)
 
     fb.insert ("Y", Slice (HALF,				   // type
 			   (char *) &_buf[-dw.min.y][-dw.min.x].g, // base
-			   sizeof (Rgba),			   // xStride
-			   sizeof (Rgba) * _tileXSize));	   // yStride
+			   sizeof (Rgbad),			   // xStride
+			   sizeof (Rgbad) * _tileXSize));	   // yStride
 
     fb.insert ("A", Slice (HALF,				   // type
 			   (char *) &_buf[-dw.min.y][-dw.min.x].a, // base
-			   sizeof (Rgba),			   // xStride
-			   sizeof (Rgba) * _tileXSize));	   // yStride
+			   sizeof (Rgbad),			   // xStride
+			   sizeof (Rgbad) * _tileXSize));	   // yStride
 
     _outputFile.setFrameBuffer (fb);
     _outputFile.writeTile (dx, dy, lx, ly);
@@ -384,7 +384,7 @@ TiledRgbaOutputFile::~TiledRgbaOutputFile ()
 
 
 void
-TiledRgbaOutputFile::setFrameBuffer (const Rgba *base,
+TiledRgbaOutputFile::setFrameBuffer (const Rgbad *base,
 				     size_t xStride,
 				     size_t yStride)
 {
@@ -395,8 +395,8 @@ TiledRgbaOutputFile::setFrameBuffer (const Rgba *base,
     }
     else
     {
-	size_t xs = xStride * sizeof (Rgba);
-	size_t ys = yStride * sizeof (Rgba);
+	size_t xs = xStride * sizeof (Rgbad);
+	size_t ys = yStride * sizeof (Rgbad);
 
 	FrameBuffer fb;
 
@@ -654,10 +654,10 @@ class TiledRgbaInputFile::FromYa: public Mutex
 
      FromYa (TiledInputFile &inputFile);
 
-     void	setFrameBuffer (Rgba *base,
-				size_t xStride,
-				size_t yStride,
-				const string &channelNamePrefix);
+     void	setFrameBuffer (Rgbad *base,
+                             size_t xStride,
+                             size_t yStride,
+                             const string &channelNamePrefix);
 
      void	readTile (int dx, int dy, int lx, int ly);
 
@@ -667,8 +667,8 @@ class TiledRgbaInputFile::FromYa: public Mutex
      unsigned int	_tileXSize;
      unsigned int	_tileYSize;
      V3f		_yw;
-     Array2D <Rgba>	_buf;
-     Rgba *		_fbBase;
+     Array2D <Rgbad>	_buf;
+     Rgbad *		_fbBase;
      size_t		_fbXStride;
      size_t		_fbYStride;
 };
@@ -691,10 +691,10 @@ TiledRgbaInputFile::FromYa::FromYa (TiledInputFile &inputFile)
 
 
 void
-TiledRgbaInputFile::FromYa::setFrameBuffer (Rgba *base,
-					    size_t xStride,
-					    size_t yStride,
-					    const string &channelNamePrefix)
+TiledRgbaInputFile::FromYa::setFrameBuffer (Rgbad *base,
+                                            size_t xStride,
+                                            size_t yStride,
+                                            const string &channelNamePrefix)
 {
     if (_fbBase == 0)
 {
@@ -703,8 +703,8 @@ TiledRgbaInputFile::FromYa::setFrameBuffer (Rgba *base,
 	fb.insert (channelNamePrefix + "Y",
 		   Slice (HALF,				// type
 			  (char *) &_buf[0][0].g,	// base
-			  sizeof (Rgba),		// xStride
-			  sizeof (Rgba) * _tileXSize,	// yStride
+			  sizeof (Rgbad),		// xStride
+			  sizeof (Rgbad) * _tileXSize,	// yStride
 			  1, 1,				// sampling
 			  0.0,				// fillValue
 			  true, true));			// tileCoordinates
@@ -712,8 +712,8 @@ TiledRgbaInputFile::FromYa::setFrameBuffer (Rgba *base,
 	fb.insert (channelNamePrefix + "A",
 		   Slice (HALF,				// type
 			  (char *) &_buf[0][0].a,	// base
-			  sizeof (Rgba),		// xStride
-			  sizeof (Rgba) * _tileXSize,	// yStride
+			  sizeof (Rgbad),		// xStride
+			  sizeof (Rgbad) * _tileXSize,	// yStride
 			  1, 1,				// sampling
 			  1.0,				// fillValue
 			  true, true));			// tileCoordinates
@@ -823,7 +823,7 @@ TiledRgbaInputFile::~TiledRgbaInputFile ()
 
 
 void	
-TiledRgbaInputFile::setFrameBuffer (Rgba *base, size_t xStride, size_t yStride)
+TiledRgbaInputFile::setFrameBuffer (Rgbad *base, size_t xStride, size_t yStride)
 {
     if (_fromYa)
     {
@@ -832,8 +832,8 @@ TiledRgbaInputFile::setFrameBuffer (Rgba *base, size_t xStride, size_t yStride)
     }
     else
     {
-	size_t xs = xStride * sizeof (Rgba);
-	size_t ys = yStride * sizeof (Rgba);
+	size_t xs = xStride * sizeof (Rgbad);
+	size_t ys = yStride * sizeof (Rgbad);
 
 	FrameBuffer fb;
 

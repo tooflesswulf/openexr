@@ -35,7 +35,7 @@
 
 //-----------------------------------------------------------------------------
 //
-//	exrdisplay -- a simple program to display Imf::Rgba multipart
+//	exrdisplay -- a simple program to display Imf::Rgbad multipart
 //                    and deep images
 //                 -- exrdisplay Window Mouse Control:
 //                      LMB = Display a sample chart and print out values
@@ -99,7 +99,7 @@ struct MainWindow
     Fl_Value_Slider *   kneeHighSlider;
     Fl_Box *            rgbaBox;
     ImageView *         image;
-    Array<Rgba>         pixels;
+    Array<Rgbad>         pixels;
     Array<float*>       dataZ;
     Array<unsigned int> sampleCount;
     const char*         imageFile;

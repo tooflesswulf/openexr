@@ -125,7 +125,7 @@ writeReadChromaticities (const char fileName[])
 
     {
 	RgbaOutputFile out (fileName, header);
-	Rgba pixels[W];
+	Rgbad pixels[W];
 
 	for (int i = 0; i < W; ++i)
 	{
@@ -195,13 +195,13 @@ latLongMap (const char fileName1[], const char fileName2[])
     pos = LatLongMap::pixelPosition(header.dataWindow(), V2f (-M_PI/2, -M_PI));
     assert (pos.equalWithAbsError (V2f (header.dataWindow().max), 1e-6f * W));
 
-    Array2D<Rgba> pixels (H, W);
+    Array2D<Rgbad> pixels (H, W);
 
     for (int y = 0; y < H; ++y)
     {
 	for (int x = 0; x < W; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 	    V3f dir = LatLongMap::direction (header.dataWindow(), V2f (x, y));
 
 	    p.r = dir.x + 1;
@@ -223,7 +223,7 @@ latLongMap (const char fileName1[], const char fileName2[])
 	V3f dir = hollowSphereRand<V3f> (rand);
 	V2f pos = LatLongMap::pixelPosition (header.dataWindow(), dir);
 
-	Rgba &p = pixels[int (pos.y + 0.5)][int (pos.x + 0.5)];
+	Rgbad &p = pixels[int (pos.y + 0.5)][int (pos.x + 0.5)];
 
 	p.r = (dir.x + 1) * 0.8;
 	p.g = (dir.y + 1) * 0.8;
@@ -323,13 +323,13 @@ cubeMap (const char fileName1[], const char fileName2[])
     assert (face == CUBEFACE_NEG_Z);
     assert (pos.equalWithAbsError (V2f ((sof - 1), (sof - 1)) / 2, 1e-6 * W));
 
-    Array2D<Rgba> pixels (H, W);
+    Array2D<Rgbad> pixels (H, W);
 
     for (int y = 0; y < H; ++y)
     {
 	for (int x = 0; x < W; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 	    p.r = p.g = p.b = 0;
 	}
     }
@@ -344,7 +344,7 @@ cubeMap (const char fileName1[], const char fileName2[])
 						 header.dataWindow(),
 						 V2f (x, y));
 
-		Rgba &p = pixels[int (px.y + 0.5)][int (px.x + 0.5)];
+		Rgbad &p = pixels[int (px.y + 0.5)][int (px.x + 0.5)];
 
 		V3f dir = CubeMap::direction (CubeMapFace (face),
 			                      header.dataWindow(),
@@ -368,7 +368,7 @@ cubeMap (const char fileName1[], const char fileName2[])
     {
 	for (int x = 0; x < W; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 	    assert (p.r != 0 || p.g != 0 || p.b != 0);
 	}
     }
@@ -386,7 +386,7 @@ cubeMap (const char fileName1[], const char fileName2[])
 
 	V2f pos = CubeMap::pixelPosition (face, header.dataWindow(), pif);
 
-	Rgba &p = pixels[int (pos.y + 0.5)][int (pos.x + 0.5)];
+	Rgbad &p = pixels[int (pos.y + 0.5)][int (pos.x + 0.5)];
 
 	p.r = (dir.x + 1) * 0.8;
 	p.g = (dir.y + 1) * 0.8;
@@ -441,7 +441,7 @@ writeReadKeyCode (const char fileName[])
 
     {
 	RgbaOutputFile out (fileName, header);
-	Rgba pixels[W];
+	Rgbad pixels[W];
 
 	for (int i = 0; i < W; ++i)
 	{
@@ -717,7 +717,7 @@ writeReadTimeCode (const char fileName[])
 
     {
 	RgbaOutputFile out (fileName, header);
-	Rgba pixels[W];
+	Rgbad pixels[W];
 
 	for (int i = 0; i < W; ++i)
 	{
@@ -827,7 +827,7 @@ writeReadRational (const char fileName[])
 
     {
 	RgbaOutputFile out (fileName, header);
-	Rgba pixels[W];
+	Rgbad pixels[W];
 
 	for (int i = 0; i < W; ++i)
 	{

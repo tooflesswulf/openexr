@@ -239,7 +239,7 @@ AcesOutputFile::~AcesOutputFile ()
 
 void		
 AcesOutputFile::setFrameBuffer
-    (const Rgba *base,
+    (const Rgbad *base,
      size_t xStride,
      size_t yStride)
 {
@@ -342,7 +342,7 @@ class AcesInputFile::Data
 
     RgbaInputFile *	rgbaFile;
 
-    Rgba *		fbBase;
+    Rgbad *		fbBase;
     size_t		fbXStride;
     size_t		fbYStride;
     int			minX;
@@ -490,7 +490,7 @@ AcesInputFile::~AcesInputFile ()
 
 
 void		
-AcesInputFile::setFrameBuffer (Rgba *base, size_t xStride, size_t yStride)
+AcesInputFile::setFrameBuffer (Rgbad *base, size_t xStride, size_t yStride)
 {
     _data->rgbaFile->setFrameBuffer (base, xStride, yStride);
     _data->fbBase = base;
@@ -522,7 +522,7 @@ AcesInputFile::readPixels (int scanLine1, int scanLine2)
 
     for (int y = minY; y <= maxY; ++y)
     {
-	Rgba *base = _data->fbBase +
+	Rgbad *base = _data->fbBase +
 		     _data->fbXStride * _data->minX +
 		     _data->fbYStride * y;
 

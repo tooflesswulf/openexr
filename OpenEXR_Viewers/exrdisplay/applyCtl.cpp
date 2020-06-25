@@ -261,7 +261,7 @@ void
 initializeInFrameBuffer
     (int w,
      int h,
-     const Array<Rgba> &pixels,
+     const Array<Rgbad> &pixels,
      FrameBuffer &fb)
 {
     fb.insert ("R", Slice (HALF,			// type
@@ -285,7 +285,7 @@ void
 initializeOutFrameBuffer
     (int w,
      int h,
-     const Array<Rgba> &pixels,
+     const Array<Rgbad> &pixels,
      FrameBuffer &fb)
 {
     fb.insert ("R_display", Slice (HALF,			// type
@@ -310,10 +310,10 @@ initializeOutFrameBuffer
 void
 applyCtl (vector<string> transformNames,
 	  Header inHeader,
-	  const Array<Rgba> &inPixels,
+	  const Array<Rgbad> &inPixels,
 	  int w,
 	  int h,
-	  Array<Rgba> &outPixels)
+	  Array<Rgbad> &outPixels)
 {
     //
     // If we do not have an explicit set of transform names
@@ -399,9 +399,9 @@ applyCtl (vector<string> transformNames,
 
 void
 adjustChromaticities (const Header &header,
-		      const Array<Rgba> &inPixels,
+		      const Array<Rgbad> &inPixels,
 		      int w, int h,
-		      Array<Rgba> &outPixels)
+		      Array<Rgbad> &outPixels)
 {
     Chromaticities fileChroma;  // default-initialized according to Rec. 709
 
@@ -424,8 +424,8 @@ adjustChromaticities (const Header &header,
 
     for (size_t i = 0; i < numPixels; ++i)
     {
-	const Rgba &in = inPixels[i];
-	Rgba &out = outPixels[i];
+	const Rgbad &in = inPixels[i];
+	Rgbad &out = outPixels[i];
 
 	V3f rgb = V3f (in.r, in.g, in.b) * M;
 

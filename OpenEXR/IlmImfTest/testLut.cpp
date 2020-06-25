@@ -112,7 +112,7 @@ testRgbaLut ()
     const int NX = 67;
     const int NY = 31;
 
-    Array2D<Rgba> rgba (NY, NX);
+    Array2D<Rgbad> rgba (NY, NX);
     RgbaLut lut (one, WRITE_RGB);
 
     //

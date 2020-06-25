@@ -66,7 +66,7 @@ resizeLatLong (const EnvmapImage &image1,
     image2.resize (ENVMAP_LATLONG, image2DataWindow);
     image2.clear ();
 
-    Array2D<Rgba> &pixels = image2.pixels();
+    Array2D<Rgbad> &pixels = image2.pixels();
 
     for (int y = 0; y < h; ++y)
     {
@@ -101,7 +101,7 @@ resizeCube (const EnvmapImage &image1,
 
         memcpy (&(image2.pixels()[0][0]),
                 &(image1.pixels()[0][0]),
-                sizeof (Rgba) * w * h);
+                sizeof (Rgbad) * w * h);
 
         return;
     }
@@ -116,7 +116,7 @@ resizeCube (const EnvmapImage &image1,
     image2.resize (ENVMAP_CUBE, image2DataWindow);
     image2.clear ();
 
-    Array2D<Rgba> &pixels = image2.pixels();
+    Array2D<Rgbad> &pixels = image2.pixels();
 
     for (int f = CUBEFACE_POS_X; f <= CUBEFACE_NEG_Z; ++f)
     {

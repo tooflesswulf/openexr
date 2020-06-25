@@ -60,7 +60,7 @@ using namespace IMATH_NAMESPACE;
 
 void
 writeTiledRgbaONE1 (const char fileName[],
-                    const Rgba *pixels,
+                    const Rgbad *pixels,
                     int width, int height,
                     int tileWidth, int tileHeight)
 {
@@ -96,7 +96,7 @@ writeTiledRgbaONE2 (const char fileName[],
 			     ROUND_DOWN,		// rounding mode
                              WRITE_RGBA);		// channels in file
 
-    Array2D<Rgba> pixels (tileHeight, tileWidth);
+    Array2D<Rgbad> pixels (tileHeight, tileWidth);
 
     for (int tileY = 0; tileY < out.numYTiles (); ++tileY)
     {
@@ -136,7 +136,7 @@ writeTiledRgbaMIP1 (const char fileName[],
 			     ROUND_DOWN,		// rounding mode
                              WRITE_RGBA);		// channels in file
 
-    Array2D<Rgba> pixels (height, width);
+    Array2D<Rgbad> pixels (height, width);
     out.setFrameBuffer (&pixels[0][0], 1, width);
 
     for (int level = 0; level < out.numLevels (); ++level)
@@ -170,7 +170,7 @@ writeTiledRgbaMIP2 (const char fileName[],
 			     ROUND_DOWN,		// rounding mode
                              WRITE_RGBA);		// channels in file
 
-    Array2D<Rgba> pixels (tileHeight, tileWidth);
+    Array2D<Rgbad> pixels (tileHeight, tileWidth);
 
     for (int level = 0; level < out.numLevels (); ++level)
     {
@@ -214,7 +214,7 @@ writeTiledRgbaRIP1 (const char fileName[],
 			     ROUND_DOWN,		// rounding mode
                              WRITE_RGBA);		// channels in file
 
-    Array2D<Rgba> pixels (height, width);
+    Array2D<Rgbad> pixels (height, width);
     out.setFrameBuffer (&pixels[0][0], 1, width);
 
     for (int yLevel = 0; yLevel < out.numYLevels (); ++yLevel)
@@ -252,7 +252,7 @@ writeTiledRgbaRIP2 (const char fileName[],
 			     ROUND_DOWN,		// rounding mode
                              WRITE_RGBA);		// channels in file
 
-    Array2D<Rgba> pixels (tileHeight, tileWidth);
+    Array2D<Rgbad> pixels (tileHeight, tileWidth);
 
     for (int yLevel = 0; yLevel < out.numYLevels(); ++yLevel)
     {
@@ -285,7 +285,7 @@ writeTiledRgbaRIP2 (const char fileName[],
 
 void
 readTiledRgba1 (const char fileName[],
-                Array2D<Rgba> &pixels,
+                Array2D<Rgbad> &pixels,
                 int &width,
                 int &height)
 {
@@ -316,7 +316,7 @@ rgbaInterfaceTiledExamples ()
 
     cout << "writing tiled image with image-size framebuffer" << endl;
 
-    Array2D<Rgba> pixels (h, w);
+    Array2D<Rgbad> pixels (h, w);
     drawImage3 (pixels, w, h, 0, w, 0, h, 0);
     writeTiledRgbaONE1 ("tiledrgba1.exr", &pixels[0][0], w, h, tw, th);
 

@@ -73,7 +73,7 @@ gamma (float x)
 
 
 void
-makePreviewImage (const Array2D <Rgba> &pixels,
+makePreviewImage (const Array2D <Rgbad> &pixels,
 		  int width,
 		  int height,
 		  Array2D <PreviewRgba> &previewPixels,
@@ -90,7 +90,7 @@ makePreviewImage (const Array2D <Rgba> &pixels,
     {
 	for (int x = 0; x < previewWidth; ++x)
 	{
-	    const Rgba  &inPixel = pixels[y * N][x * N];
+	    const Rgbad  &inPixel = pixels[y * N][x * N];
 	    PreviewRgba &outPixel = previewPixels[y][x];
 
 	    outPixel.r = gamma (inPixel.r);
@@ -104,7 +104,7 @@ makePreviewImage (const Array2D <Rgba> &pixels,
 
 void
 writeRgbaWithPreview1 (const char fileName[],
-		       const Array2D <Rgba> &pixels,
+		       const Array2D <Rgbad> &pixels,
 		       int width,
 		       int height)
 {
@@ -159,7 +159,7 @@ writeRgbaWithPreview2 (const char fileName[],
     //   image in the file, overwriting the dummy preview
     //   
 
-    Array <Rgba> pixels (width);
+    Array <Rgbad> pixels (width);
 
     const int N = 8;
 
@@ -182,7 +182,7 @@ writeRgbaWithPreview2 (const char fileName[],
 	{
 	    for (int x = 0; x < width; x += N)
 	    {
-		const Rgba  &inPixel = pixels[x];
+		const Rgbad  &inPixel = pixels[x];
 		PreviewRgba &outPixel = previewPixels[y / N][x / N];
 
 		outPixel.r = gamma (inPixel.r);
@@ -207,7 +207,7 @@ previewImageExamples ()
     int w = 800;
     int h = 600;
 
-    Array2D<Rgba> p (h, w);
+    Array2D<Rgbad> p (h, w);
     drawImage1 (p, w, h);
     writeRgbaWithPreview1 ("rgbaWithPreview1.exr", p, w, h);
 

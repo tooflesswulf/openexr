@@ -71,8 +71,8 @@ toNonlinear(half linear)
 void
 compareDwa(int width, 
            int height,
-           const Array2D<Rgba> &src,
-           const Array2D<Rgba> &test,
+           const Array2D<Rgbad> &src,
+           const Array2D<Rgbad> &test,
            RgbaChannels channels)
 {
     half  srcNonlin, testNonlin;

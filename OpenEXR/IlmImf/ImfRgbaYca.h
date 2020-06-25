@@ -153,10 +153,10 @@ IMATH_NAMESPACE::V3f computeYw (const Chromaticities &cr);
 
 IMF_EXPORT
 void RGBAtoYCA (const IMATH_NAMESPACE::V3f &yw,
-		int n,
-	        bool aIsValid,
-		const Rgba rgbaIn[/*n*/],
-		Rgba ycaOut[/*n*/]);
+                int n,
+                bool aIsValid,
+                const Rgbad rgbaIn[/*n*/],
+                Rgbad ycaOut[/*n*/]);
 
 //
 // Perform horizontal low-pass filtering and subsampling of
@@ -170,8 +170,8 @@ void RGBAtoYCA (const IMATH_NAMESPACE::V3f &yw,
 
 IMF_EXPORT
 void decimateChromaHoriz (int n,
-			  const Rgba ycaIn[/*n+N-1*/],
-			  Rgba ycaOut[/*n*/]);
+                          const Rgbad ycaIn[/*n+N-1*/],
+                          Rgbad ycaOut[/*n*/]);
 
 //
 // Perform vertical chroma channel low-pass filtering and subsampling.
@@ -181,8 +181,8 @@ void decimateChromaHoriz (int n,
 
 IMF_EXPORT
 void decimateChromaVert (int n,
-			 const Rgba * const ycaIn[N],
-			 Rgba ycaOut[/*n*/]);
+                         const Rgbad * const ycaIn[N],
+                         Rgbad ycaOut[/*n*/]);
 
 //
 // Round the luminance and chroma channels of an array of YCA
@@ -193,10 +193,10 @@ void decimateChromaVert (int n,
 
 IMF_EXPORT
 void roundYCA (int n,
-	       unsigned int roundY,
-	       unsigned int roundC,
-	       const Rgba ycaIn[/*n*/],
-	       Rgba ycaOut[/*n*/]);
+               unsigned int roundY,
+               unsigned int roundC,
+               const Rgbad ycaIn[/*n*/],
+               Rgbad ycaOut[/*n*/]);
 
 //
 // For a scan line that has valid chroma data only for every other pixel,
@@ -205,8 +205,8 @@ void roundYCA (int n,
 
 IMF_EXPORT
 void reconstructChromaHoriz (int n,
-			     const Rgba ycaIn[/*n+N-1*/],
-			     Rgba ycaOut[/*n*/]);
+                             const Rgbad ycaIn[/*n+N-1*/],
+                             Rgbad ycaOut[/*n*/]);
 
 //
 // For a scan line that has only luminance and no valid chroma data,
@@ -215,8 +215,8 @@ void reconstructChromaHoriz (int n,
 
 IMF_EXPORT
 void reconstructChromaVert (int n,
-			    const Rgba * const ycaIn[N],
-			    Rgba ycaOut[/*n*/]);
+                            const Rgbad * const ycaIn[N],
+                            Rgbad ycaOut[/*n*/]);
 			 
 //
 // Convert an array of n YCA (luminance/chroma/alpha) pixels to RGBA.
@@ -226,9 +226,9 @@ void reconstructChromaVert (int n,
 
 IMF_EXPORT
 void YCAtoRGBA (const IMATH_NAMESPACE::V3f &yw,
-		int n,
-		const Rgba ycaIn[/*n*/],
-		Rgba rgbaOut[/*n*/]);
+                int n,
+                const Rgbad ycaIn[/*n*/],
+                Rgbad rgbaOut[/*n*/]);
 			 
 //
 // Eliminate super-saturated pixels:
@@ -249,9 +249,9 @@ void YCAtoRGBA (const IMATH_NAMESPACE::V3f &yw,
 
 IMF_EXPORT
 void fixSaturation (const IMATH_NAMESPACE::V3f &yw,
-		    int n,
-		    const Rgba * const rgbaIn[3],
-		    Rgba rgbaOut[/*n*/]);
+                    int n,
+                    const Rgbad * const rgbaIn[3],
+                    Rgbad rgbaOut[/*n*/]);
 
 } // namespace RgbaYca
 OPENEXR_IMF_INTERNAL_NAMESPACE_HEADER_EXIT

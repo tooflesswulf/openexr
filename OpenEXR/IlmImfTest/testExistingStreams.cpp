@@ -59,13 +59,13 @@ using namespace IMATH_NAMESPACE;
 namespace {
 
 void
-fillPixels1 (Array2D<Rgba> &pixels, int w, int h)
+fillPixels1 (Array2D<Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = (x & 1);
 	    p.g = ((x + y) & 1);
@@ -77,13 +77,13 @@ fillPixels1 (Array2D<Rgba> &pixels, int w, int h)
 
 
 void
-fillPixels2 (Array2D<Rgba> &pixels, int w, int h)
+fillPixels2 (Array2D<Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = (x & 2);
 	    p.g = ((x + y) & 2);
@@ -207,7 +207,7 @@ void
 writeReadScanLines (const char fileName[],
 		    int width,
 		    int height,
-		    const Array2D<Rgba> &p1)
+		    const Array2D<Rgbad> &p1)
 {
     //
     // Save a scanline-based RGBA image, but instead of
@@ -246,7 +246,7 @@ writeReadScanLines (const char fileName[],
 	int dx = dw.min.x;
 	int dy = dw.min.y;
 
-	Array2D<Rgba> p2 (h, w);
+	Array2D<Rgbad> p2 (h, w);
 	in.setFrameBuffer (&p2[-dy][-dx], 1, w);
 	in.readPixels (dw.min.y, dw.max.y);
 
@@ -274,7 +274,7 @@ writeReadScanLines (const char fileName[],
 	int dx = dw.min.x;
 	int dy = dw.min.y;
 
-	Array2D<Rgba> p2 (h, w);
+	Array2D<Rgbad> p2 (h, w);
 	in.setFrameBuffer (&p2[-dy][-dx], 1, w);
 	in.readPixels (dw.min.y, dw.max.y);
 
@@ -299,7 +299,7 @@ void
 writeReadMultiPart (const char fileName[],
                     int width,
                     int height,
-                    const Array2D<Rgba> &p1)
+                    const Array2D<Rgbad> &p1)
 {
     //
     // Save a two scanline parts in an image, but instead of
@@ -334,10 +334,10 @@ writeReadMultiPart (const char fileName[],
         StdOFStream ofs (os, fileName);
         MultiPartOutputFile out (ofs, &headers[0],2);
         FrameBuffer f;
-        f.insert("R",Slice(HALF,(char *) &p1[0][0].r,sizeof(Rgba),width*sizeof(Rgba)));
-        f.insert("G",Slice(HALF,(char *) &p1[0][0].g,sizeof(Rgba),width*sizeof(Rgba)));
-        f.insert("B",Slice(HALF,(char *) &p1[0][0].b,sizeof(Rgba),width*sizeof(Rgba)));
-        f.insert("A",Slice(HALF,(char *) &p1[0][0].a,sizeof(Rgba),width*sizeof(Rgba)));
+        f.insert("R",Slice(HALF, (char *) &p1[0][0].r, sizeof(Rgbad), width * sizeof(Rgbad)));
+        f.insert("G",Slice(HALF, (char *) &p1[0][0].g, sizeof(Rgbad), width * sizeof(Rgbad)));
+        f.insert("B",Slice(HALF, (char *) &p1[0][0].b, sizeof(Rgbad), width * sizeof(Rgbad)));
+        f.insert("A",Slice(HALF, (char *) &p1[0][0].a, sizeof(Rgbad), width * sizeof(Rgbad)));
         
         for(int i=0;i<2;i++)
         {
@@ -363,12 +363,12 @@ writeReadMultiPart (const char fileName[],
         int dx = dw.min.x;
         int dy = dw.min.y;
         
-        Array2D<Rgba> p2 (h, w);
+        Array2D<Rgbad> p2 (h, w);
         FrameBuffer f;
-        f.insert("R",Slice(HALF,(char *) &p2[-dy][-dx].r,sizeof(Rgba),w*sizeof(Rgba)));
-        f.insert("G",Slice(HALF,(char *) &p2[-dy][-dx].g,sizeof(Rgba),w*sizeof(Rgba)));
-        f.insert("B",Slice(HALF,(char *) &p2[-dy][-dx].b,sizeof(Rgba),w*sizeof(Rgba)));
-        f.insert("A",Slice(HALF,(char *) &p2[-dy][-dx].a,sizeof(Rgba),w*sizeof(Rgba)));
+        f.insert("R",Slice(HALF, (char *) &p2[-dy][-dx].r, sizeof(Rgbad), w * sizeof(Rgbad)));
+        f.insert("G",Slice(HALF, (char *) &p2[-dy][-dx].g, sizeof(Rgbad), w * sizeof(Rgbad)));
+        f.insert("B",Slice(HALF, (char *) &p2[-dy][-dx].b, sizeof(Rgbad), w * sizeof(Rgbad)));
+        f.insert("A",Slice(HALF, (char *) &p2[-dy][-dx].a, sizeof(Rgbad), w * sizeof(Rgbad)));
         
         for(int part=0;part<2;part++)
         {
@@ -406,12 +406,12 @@ writeReadMultiPart (const char fileName[],
         int dx = dw.min.x;
         int dy = dw.min.y;
         
-        Array2D<Rgba> p2 (h, w);
+        Array2D<Rgbad> p2 (h, w);
         FrameBuffer f;
-        f.insert("R",Slice(HALF,(char *) &p2[-dy][-dx].r,sizeof(Rgba),w*sizeof(Rgba)));
-        f.insert("G",Slice(HALF,(char *) &p2[-dy][-dx].g,sizeof(Rgba),w*sizeof(Rgba)));
-        f.insert("B",Slice(HALF,(char *) &p2[-dy][-dx].b,sizeof(Rgba),w*sizeof(Rgba)));
-        f.insert("A",Slice(HALF,(char *) &p2[-dy][-dx].a,sizeof(Rgba),w*sizeof(Rgba)));
+        f.insert("R",Slice(HALF, (char *) &p2[-dy][-dx].r, sizeof(Rgbad), w * sizeof(Rgbad)));
+        f.insert("G",Slice(HALF, (char *) &p2[-dy][-dx].g, sizeof(Rgbad), w * sizeof(Rgbad)));
+        f.insert("B",Slice(HALF, (char *) &p2[-dy][-dx].b, sizeof(Rgbad), w * sizeof(Rgbad)));
+        f.insert("A",Slice(HALF, (char *) &p2[-dy][-dx].a, sizeof(Rgbad), w * sizeof(Rgbad)));
         
         for(int part=0;part<2;part++)
         {
@@ -444,7 +444,7 @@ void
 writeReadTiles (const char fileName[],
 		int width,
 		int height,
-		const Array2D<Rgba> &p1)
+		const Array2D<Rgbad> &p1)
 {
     //
     // Save a tiled RGBA image, but instead of letting
@@ -481,7 +481,7 @@ writeReadTiles (const char fileName[],
 	int dx = dw.min.x;
 	int dy = dw.min.y;
 
-	Array2D<Rgba> p2 (h, w);
+	Array2D<Rgbad> p2 (h, w);
 	in.setFrameBuffer (&p2[-dy][-dx], 1, w);
         in.readTiles (0, in.numXTiles() - 1, 0, in.numYTiles() - 1);
 
@@ -509,7 +509,7 @@ writeReadTiles (const char fileName[],
 	int dx = dw.min.x;
 	int dy = dw.min.y;
 
-	Array2D<Rgba> p2 (h, w);
+	Array2D<Rgbad> p2 (h, w);
 	in.setFrameBuffer (&p2[-dy][-dx], 1, w);
         in.readTiles (0, in.numXTiles() - 1, 0, in.numYTiles() - 1);
 
@@ -545,7 +545,7 @@ testExistingStreams (const std::string &tempDir)
 	const int W = 119;
 	const int H = 237;
 
-	Array2D<Rgba> p1 (H, W);
+	Array2D<Rgbad> p1 (H, W);
 
 	fillPixels1 (p1, W, H);
 	writeReadScanLines ((tempDir + "imf_test_streams.exr").c_str(), W, H, p1);

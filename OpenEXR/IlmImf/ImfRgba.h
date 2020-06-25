@@ -38,7 +38,7 @@
 
 //-----------------------------------------------------------------------------
 //
-//	class Rgba
+//	class Rgbad
 //
 //-----------------------------------------------------------------------------
 
@@ -52,22 +52,25 @@ OPENEXR_IMF_INTERNAL_NAMESPACE_HEADER_ENTER
 // RGBA pixel
 //
 
-struct Rgba
+struct Rgbad
 {
     half	r;
     half	g;
     half	b;
     half	a;
+    half    d;
     
-    Rgba () {}
-    Rgba (half r, half g, half b, half a = 1.f): r (r), g (g), b (b), a (a) {}
+    Rgbad () {}
+    Rgbad (half r, half g, half b, half a = 1.f, half d = 0.5f):
+    r (r), g (g), b (b), a (a), d (d) {}
 
-    Rgba & operator = (const Rgba &other)
+    Rgbad & operator = (const Rgbad &other)
     {
     	r = other.r;
     	g = other.g;
     	b = other.b;
-    	a = other.a;
+        a = other.a;
+        d = other.d;
 
     	return *this;
     }
@@ -91,8 +94,12 @@ enum RgbaChannels
     WRITE_C	= 0x20,		// Chroma (two subsampled channels, RY and BY,
     				// supported only for scanline-based files)
 
+    WRITE_D = 0x40,     // Depth (my custom mod zz)
+
     WRITE_RGB	= 0x07,		// Red, green, blue
     WRITE_RGBA	= 0x0f,		// Red, green, blue, alpha
+    WRITE_RGBD  = 0x47,     // Red, green, blue, depth
+    WRITE_RGBAD = 0x4f,     // Red, green, blue, alpha, depth
 
     WRITE_YC	= 0x30,		// Luminance, chroma
     WRITE_YA	= 0x18,		// Luminance, alpha

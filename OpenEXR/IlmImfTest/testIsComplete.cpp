@@ -56,11 +56,11 @@ writeFiles (const char completeScanLinesName[],
 	    int tileXSize,
 	    int tileYSize)
 {
-    Array2D <Rgba> pixels (height, width);
+    Array2D <Rgbad> pixels (height, width);
 
     for (int y = 0; y < height; ++y)
 	for (int x = 0; x < width; ++x)
-	    pixels[y][x] = Rgba (x, y, 0.0, 1.0);
+	    pixels[y][x] = Rgbad (x, y, 0.0, 1.0);
 
     {
 	RgbaOutputFile out (completeScanLinesName, width, height);

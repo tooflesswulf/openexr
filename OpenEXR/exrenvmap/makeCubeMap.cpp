@@ -157,7 +157,7 @@ makeCubeMapSixFiles (EnvmapImage &image1,
 
     EnvmapImage image2;
     resizeCube (image1, image2, dw, filterRadius, numSamples);
-    const Rgba *pixels = &(image2.pixels())[0][0];
+    const Rgbad *pixels = &(image2.pixels())[0][0];
 
     for (int i = 0; i < 6; ++i)
     {

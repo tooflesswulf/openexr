@@ -31,7 +31,7 @@ using std::max;
 
 
 using Imf::Array2D;
-using Imf::Rgba;
+using Imf::Rgbad;
 
 
 // ---------------------------------------------------------------------------
@@ -63,7 +63,7 @@ static ADMDrawerSuite3*     sDrawSuite              =   NULL;
 static ADMImageSuite2*      sImageSuite             =   NULL;
 static ADMTrackerSuite1*    sTrackSuite             =   NULL;
 
-static Array2D< Rgba >		sEXRBuffer;
+static Array2D< Rgbad >		sEXRBuffer;
 static ADMImageRef          sPreviewImage           =   NULL;
 
 
@@ -160,7 +160,7 @@ static void ReadAllocatePreview (GPtr globals, ADMItemRef previewWidget)
 	int 				pw, ph;
 	ASRect				r1, r2, r3;
 	float				xSkip, ySkip;
-	Array2D< Rgba >		scanline;
+	Array2D< Rgbad >		scanline;
 	float 				x1, x2, y1, y2;
 	int 				x1i, x2i, y1i, y2i;
 	ASRect              previewRect;
@@ -316,7 +316,7 @@ static void ResamplePreview (GPtr globals)
 			{
 			    // get half pixel
 			    
-				Rgba	    bigPixel	=	sEXRBuffer[y][x];
+				Rgbad	    bigPixel	=	sEXRBuffer[y][x];
 				
 				
 				// unmult

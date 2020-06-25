@@ -63,7 +63,7 @@ public:
     GlWindow (int x,int y,
               int w,int h,
               const char *l,
-              const IMF::Rgba pixels[],
+              const IMF::Rgbad pixels[],
               float* dataZ[],
               unsigned int sampleCount[],
               int dx, int dy, // data window
@@ -80,7 +80,7 @@ public:
     int handle (int event);
 
 protected:
-    const IMF::Rgba *                    _rawPixels;
+    const IMF::Rgbad *                    _rawPixels;
     float**                              _dataZ;
     unsigned int *                       _sampleCount;
     int                                  _dx;

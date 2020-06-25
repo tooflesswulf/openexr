@@ -109,7 +109,7 @@ generatePreview (const char inFileName[],
     int w = dw.max.x - dw.min.x + 1;
     int h = dw.max.y - dw.min.y + 1;
 
-    Array2D <Rgba> pixels (h, w);
+    Array2D <Rgbad> pixels (h, w);
     in.setFrameBuffer (&pixels[0][0] - dw.min.y * w - dw.min.x, 1, w);
     in.readPixels (dw.min.y, dw.max.y);
 
@@ -129,7 +129,7 @@ generatePreview (const char inFileName[],
 	for (int x = 0; x < previewWidth; ++x)
 	{
 	    PreviewRgba &preview = previewPixels[y][x];
-	    const Rgba &pixel = pixels[int (y * fy + .5f)][int (x * fx + .5f)];
+	    const Rgbad &pixel = pixels[int (y * fy + .5f)][int (x * fx + .5f)];
 
 	    preview.r = gamma (pixel.r, m);
 	    preview.g = gamma (pixel.g, m);

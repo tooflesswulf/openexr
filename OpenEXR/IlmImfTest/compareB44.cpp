@@ -244,8 +244,8 @@ compareB44 (int width,
 void
 compareB44 (int width,
 	    int height,
-	    const Array2D<Rgba> &p1,
-	    const Array2D<Rgba> &p2,
+	    const Array2D<Rgbad> &p1,
+	    const Array2D<Rgbad> &p2,
 	    RgbaChannels channels)
 {
     if (channels & WRITE_R)

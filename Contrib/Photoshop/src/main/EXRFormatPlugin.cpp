@@ -258,7 +258,7 @@ void EXRFormatPlugin::DoReadContinue ()
 	// create a half buffer for reading into
 	// buffer is big enough for one scanline
 	
-	Array2D<Rgba> p2 (1, w);
+	Array2D<Rgbad> p2 (1, w);
 	
 
 	// create an integer buffer for returning pixels to the host
@@ -522,7 +522,7 @@ void EXRFormatPlugin::DoWriteStart ()
 	// create buffers for one scanline
 	
 	PSAutoBuffer	intBuffer 	(mFormatRec->rowBytes, mFormatRec->bufferProcs);
-	Array2D<Rgba>	p2			(1, mFormatRec->imageSize.h);
+	Array2D<Rgbad>	p2			(1, mFormatRec->imageSize.h);
 	
 	
 	// tell host where our buffer is

@@ -40,8 +40,8 @@
 
 void compareDwa(int width, 
                 int height,
-                const OPENEXR_IMF_NAMESPACE::Array2D<Imf::Rgba> &src,
-                const OPENEXR_IMF_NAMESPACE::Array2D<Imf::Rgba> &test,
+                const OPENEXR_IMF_NAMESPACE::Array2D<Imf::Rgbad> &src,
+                const OPENEXR_IMF_NAMESPACE::Array2D<Imf::Rgbad> &test,
                 OPENEXR_IMF_NAMESPACE::RgbaChannels channels);
 
 #endif

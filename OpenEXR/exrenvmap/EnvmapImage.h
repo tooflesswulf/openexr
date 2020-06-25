@@ -65,21 +65,21 @@ class EnvmapImage
       IMF::Envmap               type () const;
       const IMATH::Box2i &      dataWindow () const;
 
-      IMF::Array2D<IMF::Rgba> & pixels ();
-      const IMF::Array2D<IMF::Rgba> &
+      IMF::Array2D<IMF::Rgbad> & pixels ();
+      const IMF::Array2D<IMF::Rgbad> &
                                 pixels () const;
       
-      IMF::Rgba                 filteredLookup (IMATH::V3f direction,
-                                                float radius,
-                                                int numSamples) const;
+      IMF::Rgbad                 filteredLookup (IMATH::V3f direction,
+                                                 float radius,
+                                                 int numSamples) const;
 
   private:
       
-      IMF::Rgba                 sample (const IMATH::V2f &pos) const;
+      IMF::Rgbad                 sample (const IMATH::V2f &pos) const;
 
       IMF::Envmap               _type;
       IMATH::Box2i              _dataWindow;
-      IMF::Array2D<IMF::Rgba>   _pixels;
+      IMF::Array2D<IMF::Rgbad>   _pixels;
 };
 
 

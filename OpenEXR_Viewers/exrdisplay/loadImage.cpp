@@ -75,7 +75,7 @@ loadImage (const char fileName[],
            const char layer[],
            int partnum,
            Header &header,
-           Array<Rgba> &pixels)
+           Array<Rgbad> &pixels)
 {
     MultiPartInputFile inmaster (fileName);
     InputPart in (inmaster, partnum);
@@ -102,13 +102,13 @@ loadImage (const char fileName[],
         int dy = dataWindow.min.y;
 
         pixels.resizeErase (dw * dh);
-        memset (pixels, 0, (dw * dh) * (sizeof(Rgba)));
+        memset (pixels, 0, (dw * dh) * (sizeof(Rgbad)));
 
-        size_t xs = 1 * sizeof (Rgba);
-        size_t ys = dw * sizeof (Rgba);
+        size_t xs = 1 * sizeof (Rgbad);
+        size_t ys = dw * sizeof (Rgbad);
 
         FrameBuffer fb;
-        Rgba *base = pixels - dx - dy * dw;
+        Rgbad *base = pixels - dx - dy * dw;
 
         fb.insert ("R",
                    Slice (HALF,
@@ -164,7 +164,7 @@ loadTiledImage (const char fileName[],
                 int ly,
                 int partnum,
                 Header &header,
-                Array<Rgba> &pixels)
+                Array<Rgbad> &pixels)
 {
     MultiPartInputFile inmaster (fileName);
     TiledInputPart in (inmaster, partnum);
@@ -208,12 +208,12 @@ loadTiledImage (const char fileName[],
             int dy = dataWindow.min.y;
 
             pixels.resizeErase (dw * dh);
-            memset (pixels, 0, (dw * dh) * (sizeof(Rgba)));
+            memset (pixels, 0, (dw * dh) * (sizeof(Rgbad)));
 
-            size_t xs = 1 * sizeof (Rgba);
-            size_t ys = dw * sizeof (Rgba);
+            size_t xs = 1 * sizeof (Rgbad);
+            size_t ys = dw * sizeof (Rgbad);
             FrameBuffer fb;
-            Rgba *base = pixels - dx - dy * dw;
+            Rgbad *base = pixels - dx - dy * dw;
 
             fb.insert ("R",
                        Slice (HALF,
@@ -287,7 +287,7 @@ void
 loadPreviewImage (const char fileName[],
                   int partnum,
                   Header &header,
-                  Array<Rgba> &pixels)
+                  Array<Rgbad> &pixels)
 {
     MultiPartInputFile inmaster (fileName);
     InputPart in (inmaster, partnum);
@@ -322,7 +322,7 @@ loadPreviewImage (const char fileName[],
 
         for (int i = 0; i < w * h; ++i)
         {
-            Rgba &p = pixels[i];
+            Rgbad &p = pixels[i];
             const PreviewRgba &q = preview.pixels()[i];
 
             p.r = 2.f * pow (q.r / 255.f, 2.2f);
@@ -338,7 +338,7 @@ loadImageChannel (const char fileName[],
                   const char channelName[],
                   int partnum,
                   Header &header,
-                  Array<Rgba> &pixels)
+                  Array<Rgbad> &pixels)
 {
     MultiPartInputFile inmaster (fileName);
     InputPart in (inmaster, partnum);
@@ -366,8 +366,8 @@ loadImageChannel (const char fileName[],
         fb.insert (channelName,
                    Slice (HALF,
                           (char *) &pixels[-dx - dy * dw].g,
-                          sizeof (Rgba) * ch->xSampling,
-                          sizeof (Rgba) * ch->ySampling * dw,
+                          sizeof (Rgbad) * ch->xSampling,
+                          sizeof (Rgbad) * ch->ySampling * dw,
                           ch->xSampling,
                           ch->ySampling));
 
@@ -414,7 +414,7 @@ loadTiledImageChannel (const char fileName[],
                        int ly,
                        int partnum,
                        Header &header,
-                       Array<Rgba> &pixels)
+                       Array<Rgbad> &pixels)
 {
     MultiPartInputFile inmaster (fileName);
     TiledInputPart in (inmaster, partnum);
@@ -452,8 +452,8 @@ loadTiledImageChannel (const char fileName[],
         fb.insert (channelName,
                    Slice (HALF,
                           (char *) &pixels[-dx - dy * dw].g,
-                          sizeof (Rgba) * ch->xSampling,
-                          sizeof (Rgba) * ch->ySampling * dw,
+                          sizeof (Rgbad) * ch->xSampling,
+                          sizeof (Rgbad) * ch->ySampling * dw,
                           ch->xSampling,
                           ch->ySampling));
 
@@ -517,7 +517,7 @@ loadDeepScanlineImage (MultiPartInputFile &inmaster,
                        int partnum,
                        int &zsize,
                        Header &header,
-                       Array<Rgba> &pixels,
+                       Array<Rgbad> &pixels,
                        Array<float*> &zbuff,
                        Array<unsigned int> &sampleCount,
                        bool deepComp)
@@ -533,7 +533,7 @@ loadDeepScanlineImage (MultiPartInputFile &inmaster,
 
     // display black right now
     pixels.resizeErase (dw * dh);
-    memset (pixels, 0, (dw * dh) * (sizeof(Rgba)));
+    memset (pixels, 0, (dw * dh) * (sizeof(Rgbad)));
 
     Array< half* > dataR;
     Array< half* > dataG;
@@ -657,9 +657,9 @@ loadDeepScanlineImage (MultiPartInputFile &inmaster,
         comp.addSource (&in);
 
         FrameBuffer fbuffer;
-        Rgba *base = pixels - dx - dy * dw;
-        size_t xs = 1 * sizeof (Rgba);
-        size_t ys = dw * sizeof (Rgba);
+        Rgbad *base = pixels - dx - dy * dw;
+        size_t xs = 1 * sizeof (Rgbad);
+        size_t ys = dw * sizeof (Rgbad);
 
         fbuffer.insert ("R",
                    Slice (HALF,
@@ -721,7 +721,7 @@ loadDeepTileImage (MultiPartInputFile &inmaster,
                    int partnum,
                    int &zsize,
                    Header &header,
-                   Array<Rgba> &pixels,
+                   Array<Rgbad> &pixels,
                    Array<float*> &zbuff,
                    Array<unsigned int> &sampleCount,
                    bool deepComp)
@@ -737,7 +737,7 @@ loadDeepTileImage (MultiPartInputFile &inmaster,
 
     // display black right now
     pixels.resizeErase (dw * dh);
-    memset(pixels, 0, (dw * dh) * (sizeof(Rgba)));
+    memset(pixels, 0, (dw * dh) * (sizeof(Rgbad)));
 
     Array< half* > dataR;
     Array< half* > dataG;
@@ -917,7 +917,7 @@ loadImage (const char fileName[],
            int partnum,
            int &zsize,
            Header &header,
-           Array<Rgba> &pixels,
+           Array<Rgbad> &pixels,
            Array<float*>  &zbuff,
            Array<unsigned int> &sampleCount,
            bool deepComp)

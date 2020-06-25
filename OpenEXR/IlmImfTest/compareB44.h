@@ -49,6 +49,6 @@ void compareB44 (int width,
 
 void compareB44 (int width,
 		 int height,
-		 const OPENEXR_IMF_NAMESPACE::Array2D<OPENEXR_IMF_NAMESPACE::Rgba> &p1,
-		 const OPENEXR_IMF_NAMESPACE::Array2D<OPENEXR_IMF_NAMESPACE::Rgba> &p2,
+		 const OPENEXR_IMF_NAMESPACE::Array2D<OPENEXR_IMF_NAMESPACE::Rgbad> &p1,
+		 const OPENEXR_IMF_NAMESPACE::Array2D<OPENEXR_IMF_NAMESPACE::Rgbad> &p2,
 		 OPENEXR_IMF_NAMESPACE::RgbaChannels channels);

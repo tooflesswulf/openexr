@@ -56,7 +56,7 @@ namespace {
 
 void
 readImage (const char fileName[],
-           Array2D<Rgba>& pixels,
+           Array2D<Rgbad>& pixels,
            int& w,
            int& h,
            unsigned int correctChecksum)
@@ -95,8 +95,8 @@ readImage (const char fileName[],
 
 void
 readBackImage (const char fileName[],
-               Array2D<Rgba>& pixels,
-	       const Array2D<Rgba>& pixels2,
+               Array2D<Rgbad>& pixels,
+	       const Array2D<Rgbad>& pixels2,
 	       int& w,
 	       int& h,
 	       const int& xs,
@@ -112,7 +112,7 @@ readBackImage (const char fileName[],
 
     FrameBuffer frameBuffer;
 
-    Rgba *base = &pixels[0][0] - dw.min.x - dw.min.y * w;
+    Rgbad *base = &pixels[0][0] - dw.min.x - dw.min.y * w;
     int xStride = sizeof (pixels[0][0]) * xs;
     int yStride = sizeof (pixels[0][0]) * w * ys;
 
@@ -167,7 +167,7 @@ readBackImage (const char fileName[],
 
 void
 writeImage (const char fileName[],
-	    const Array2D<OPENEXR_IMF_NAMESPACE::Rgba>& pixels,
+	    const Array2D<OPENEXR_IMF_NAMESPACE::Rgbad>& pixels,
 	    const int& width,
 	    const int& height,
 	    const int& xs = 1,
@@ -187,7 +187,7 @@ writeImage (const char fileName[],
     OutputFile file (fileName, header);    
     FrameBuffer frameBuffer;
 
-    const Rgba *base = &pixels[0][0];
+    const Rgbad *base = &pixels[0][0];
     int xStride = sizeof (pixels[0][0]) * xs;
     int yStride = sizeof (pixels[0][0]) * 0;
 
@@ -244,7 +244,7 @@ readCopyRead (const std::string &tempDir,
     std::string outfilename = tempDir + "imf_test_native.exr";
 
     int w, h;
-    Array2D<OPENEXR_IMF_NAMESPACE::Rgba> pixels (1,1);
+    Array2D<OPENEXR_IMF_NAMESPACE::Rgbad> pixels (1, 1);
     
     cout << "   reading, " << flush;
     readImage(infilename, pixels, w, h, correctChecksum);
@@ -258,7 +258,7 @@ readCopyRead (const std::string &tempDir,
                     ": writing image, " << flush;
             writeImage(outfilename.c_str(), pixels, w, h, xs, ys);
             
-            Array2D<OPENEXR_IMF_NAMESPACE::Rgba> pixels2 (1,1);
+            Array2D<OPENEXR_IMF_NAMESPACE::Rgbad> pixels2 (1, 1);
             cout << "reading back, " << flush;
             readBackImage(outfilename.c_str(), pixels2, pixels, w, h, xs, ys);
 

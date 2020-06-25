@@ -91,7 +91,7 @@ void loadImage (const char fileName[],
                 int partnum,
                 int &zsize,
                 IMF::Header &header,
-                IMF::Array<IMF::Rgba> &pixels,
+                IMF::Array<IMF::Rgbad> &pixels,
                 IMF::Array<float*> &zbuffer,
                 IMF::Array<unsigned int> &sampleCount,
                 bool deepComp);

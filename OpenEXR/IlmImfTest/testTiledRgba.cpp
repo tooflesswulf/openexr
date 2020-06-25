@@ -60,13 +60,13 @@ using namespace IMATH_NAMESPACE;
 namespace {
 
 void
-fillPixels (Array2D<Rgba> &pixels, int w, int h)
+fillPixels (Array2D<Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = 0.5 + 0.5 * sin (0.1 * x + 0.1 * y);
 	    p.g = 0.5 + 0.5 * sin (0.1 * x + 0.2 * y);
@@ -93,7 +93,7 @@ writeReadRGBAONE (const char fileName[],
     header.lineOrder() = INCREASING_Y;
     header.compression() = comp;
     
-    Array2D<Rgba> p1 (height, width);
+    Array2D<Rgbad> p1 (height, width);
 
     {
         cout << " writing" << flush;
@@ -118,7 +118,7 @@ writeReadRGBAONE (const char fileName[],
         int dwx = dw.min.x;
         int dwy = dw.min.y;
 
-        Array2D<Rgba> p2 (h, w);
+        Array2D<Rgbad> p2 (h, w);
         in.setFrameBuffer (&p2[-dwy][-dwx], 1, w);
         in.readTiles (0, in.numXTiles() - 1, 0, in.numYTiles() - 1);
 
@@ -145,8 +145,8 @@ writeReadRGBAONE (const char fileName[],
 		    int nx = min (w - x, xSize);
 		    int ny = min (h - y, ySize);
 
-		    Array2D<Rgba> p3 (ny, nx);
-		    Array2D<Rgba> p4 (ny, nx);
+		    Array2D<Rgbad> p3 (ny, nx);
+		    Array2D<Rgbad> p4 (ny, nx);
 
 		    for (int y1 = 0; y1 < ny; ++y1)
 		    {
@@ -220,7 +220,7 @@ writeReadRGBAMIP (const char fileName[],
     header.lineOrder() = INCREASING_Y;
     header.compression() = comp;
     
-    Array < Array2D<Rgba> > levels;
+    Array < Array2D<Rgbad> > levels;
 
     {
         cout << " writing" << flush;
@@ -254,7 +254,7 @@ writeReadRGBAMIP (const char fileName[],
         int dwy = dw.min.y;
 
         int numLevels = in.numLevels();
-        Array < Array2D<Rgba> > levels2 (numLevels);
+        Array < Array2D<Rgbad> > levels2 (numLevels);
         
         for (int level = 0; level < numLevels; ++level)
         {
@@ -328,7 +328,7 @@ writeReadRGBARIP (const char fileName[],
     header.lineOrder() = INCREASING_Y;
     header.compression() = comp;
     
-    Array2D < Array2D<Rgba> > levels;
+    Array2D < Array2D<Rgbad> > levels;
 
     {
         cout << " writing" << flush;
@@ -366,7 +366,7 @@ writeReadRGBARIP (const char fileName[],
         
         int numXLevels = in.numXLevels();
         int numYLevels = in.numYLevels();
-	Array2D < Array2D<Rgba> > levels2 (numYLevels, numXLevels);
+	Array2D < Array2D<Rgbad> > levels2 (numYLevels, numXLevels);
         
         for (int ylevel = 0; ylevel < numYLevels; ++ylevel)
         {
@@ -485,11 +485,11 @@ writeReadIncomplete (const std::string &tempDir)
     const int tileXSize = 30;
     const int tileYSize = 40;
 
-    Array2D<Rgba> p1 (height, width);
+    Array2D<Rgbad> p1 (height, width);
 
     for (int y = 0; y < height; ++y)
 	for (int x = 0; x < width; ++x)
-	    p1[y][x] = Rgba (x % 5, x % 17, y % 23, y % 29);
+	    p1[y][x] = Rgbad (x % 5, x % 17, y % 23, y % 29);
 
     {
         cout << "writing" << endl;
@@ -518,11 +518,11 @@ writeReadIncomplete (const std::string &tempDir)
     }
 
     {
-	Array2D<Rgba> p2 (height, width);
+	Array2D<Rgbad> p2 (height, width);
 
 	for (int y = 0; y < height; ++y)
 	    for (int x = 0; x < width; ++x)
-		p2[y][x] = Rgba (-1, -1, -1, -1);
+		p2[y][x] = Rgbad (-1, -1, -1, -1);
 
         cout << "reading one tile at a time," << flush;
 
@@ -570,8 +570,8 @@ writeReadIncomplete (const std::string &tempDir)
 	    {
 		int tileX = x / tileXSize;
 
-		const Rgba &s = p1[y][x];
-		const Rgba &t = p2[y][x];
+		const Rgbad &s = p1[y][x];
+		const Rgbad &t = p2[y][x];
 
 		if ((tileX + tileY) & 1)
 		{
@@ -592,11 +592,11 @@ writeReadIncomplete (const std::string &tempDir)
     }
 
     {
-	Array2D<Rgba> p2 (height, width);
+	Array2D<Rgbad> p2 (height, width);
 
 	for (int y = 0; y < height; ++y)
 	    for (int x = 0; x < width; ++x)
-		p2[y][x] = Rgba (-1, -1, -1, -1);
+		p2[y][x] = Rgbad (-1, -1, -1, -1);
 
         cout << "reading multiple tiles at a time," << flush;
 
@@ -637,8 +637,8 @@ writeReadIncomplete (const std::string &tempDir)
 	{
 	    for (int x = 0; x < width; ++x)
 	    {
-		const Rgba &s = p1[y][x];
-		const Rgba &t = p2[y][x];
+		const Rgbad &s = p1[y][x];
+		const Rgbad &t = p2[y][x];
 
 		assert ((t.r == -1  && t.g == -1  && t.b == -1  && t.a == -1) ||
 			(t.r == s.r && t.g == s.g && t.b == s.b && t.a == s.a));
@@ -700,7 +700,7 @@ writeReadLayers(const std::string &tempDir)
     {
 	TiledRgbaInputFile in (fileName.c_str(), "");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readTiles (0, in.numXTiles() - 1, 0, in.numYTiles() - 1);
 
@@ -719,7 +719,7 @@ writeReadLayers(const std::string &tempDir)
     {
 	TiledRgbaInputFile in (fileName.c_str(), "foo");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readTiles (0, in.numXTiles() - 1, 0, in.numYTiles() - 1);
 
@@ -738,7 +738,7 @@ writeReadLayers(const std::string &tempDir)
     {
 	TiledRgbaInputFile in (fileName.c_str(), "");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 
 	in.setFrameBuffer (&p3[0][0], 1, W);
 
@@ -796,7 +796,7 @@ writeReadLayers(const std::string &tempDir)
     {
 	TiledRgbaInputFile in (fileName.c_str(), "");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readTiles (0, in.numXTiles() - 1, 0, in.numYTiles() - 1);
 
@@ -815,7 +815,7 @@ writeReadLayers(const std::string &tempDir)
     {
 	TiledRgbaInputFile in (fileName.c_str(), "foo");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readTiles (0, in.numXTiles() - 1, 0, in.numYTiles() - 1);
 
@@ -834,7 +834,7 @@ writeReadLayers(const std::string &tempDir)
     {
 	TiledRgbaInputFile in (fileName.c_str(), "");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 
 	in.setFrameBuffer (&p3[0][0], 1, W);
 

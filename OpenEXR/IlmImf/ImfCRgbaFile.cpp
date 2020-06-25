@@ -976,7 +976,7 @@ ImfOutputSetFrameBuffer (ImfOutputFile *out,
 {
     try
     {
-	outfile(out)->setFrameBuffer ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgba *)base, xStride, yStride);
+	outfile(out)->setFrameBuffer ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgbad *)base, xStride, yStride);
 	return 1;
     }
     catch (const std::exception &e)
@@ -1072,7 +1072,7 @@ ImfTiledOutputSetFrameBuffer (ImfTiledOutputFile *out,
 {
     try
     {
-	outfile(out)->setFrameBuffer ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgba *)base, xStride, yStride);
+	outfile(out)->setFrameBuffer ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgbad *)base, xStride, yStride);
 	return 1;
     }
     catch (const std::exception &e)
@@ -1201,7 +1201,7 @@ ImfInputSetFrameBuffer (ImfInputFile *in,
 {
     try
     {
-	infile(in)->setFrameBuffer ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgba *) base, xStride, yStride);
+	infile(in)->setFrameBuffer ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgbad *) base, xStride, yStride);
 	return 1;
     }
     catch (const std::exception &e)
@@ -1288,7 +1288,7 @@ ImfTiledInputSetFrameBuffer (ImfTiledInputFile *in,
 {
     try
     {
-	infile(in)->setFrameBuffer ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgba *) base, xStride, yStride);
+	infile(in)->setFrameBuffer ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgbad *) base, xStride, yStride);
 	return 1;
     }
     catch (const std::exception &e)
@@ -1427,7 +1427,7 @@ ImfDeleteLut (ImfLut *lut)
 void
 ImfApplyLut (ImfLut *lut, ImfRgba *data, int nData, int stride)
 {
-    ((OPENEXR_IMF_INTERNAL_NAMESPACE::RgbaLut *)lut)->apply ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgba *)data, nData, stride);
+    ((OPENEXR_IMF_INTERNAL_NAMESPACE::RgbaLut *)lut)->apply ((OPENEXR_IMF_INTERNAL_NAMESPACE::Rgbad *)data, nData, stride);
 }
 
 

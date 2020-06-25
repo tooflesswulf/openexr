@@ -78,7 +78,7 @@ pw (float x, int y)
 
 
 void
-sp (Array2D<Rgba> &px, int w, int h,
+sp (Array2D<Rgbad> &px, int w, int h,
     float xc, float yc, float rc,
     float rd, float gn, float bl, float lm)
 {
@@ -114,7 +114,7 @@ sp (Array2D<Rgba> &px, int w, int h,
 	    float dg = (dl + hl) * gn;
 	    float db = (dl + hl) * bl;
 
-	    Rgba &p = px[y][x];
+	    Rgbad &p = px[y][x];
 	    p.r = p.r * (1 - a) + dr * lm * a;
 	    p.g = p.g * (1 - a) + dg * lm * a;
 	    p.b = p.b * (1 - a) + db * lm * a;
@@ -179,7 +179,7 @@ z (float k)
 
 
 inline void
-clear (Rgba &color)
+clear (Rgbad &color)
 {
     color.r = 0;
     color.g = 0;
@@ -196,7 +196,7 @@ clear (GZ &gz)
 
 
 void
-add (float k, Rgba &color)
+add (float k, Rgbad &color)
 {
     color.a = k;
     k *= 4;
@@ -216,7 +216,7 @@ add (float k, GZ &gz)
 
 
 inline void
-scale (float f, Rgba &color)
+scale (float f, Rgbad &color)
 {
     color.r *= f;
     color.g *= f;
@@ -302,13 +302,13 @@ mndl (Array2D <P> &px,
 
 
 void
-drawImage1 (Array2D<Rgba> &px, int w, int h)
+drawImage1 (Array2D<Rgbad> &px, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = px[y][x];
+	    Rgbad &p = px[y][x];
 	    p.r = 0;
 	    p.g = 0;
 	    p.b = 0;
@@ -385,7 +385,7 @@ drawImage2 (Array2D<half> &gpx, Array2D<float> &zpx, int w, int h)
 
 
 void
-drawImage3 (Array2D<Rgba> &px,
+drawImage3 (Array2D<Rgbad> &px,
             int w, int h,
             int xMin, int xMax,
             int yMin, int yMax,
@@ -404,7 +404,7 @@ drawImage3 (Array2D<Rgba> &px,
 
 
 void
-drawImage4 (Array2D<Rgba> &px,
+drawImage4 (Array2D<Rgbad> &px,
             int w, int h,
             int xMin, int xMax,
             int yMin, int yMax,
@@ -423,7 +423,7 @@ drawImage4 (Array2D<Rgba> &px,
 
 
 void
-drawImage5 (Array2D<Rgba> &px,
+drawImage5 (Array2D<Rgbad> &px,
             int w, int h,
             int xMin, int xMax,
             int yMin, int yMax,
@@ -457,7 +457,7 @@ drawImage6 (Array2D<GZ> &px, int w, int h)
 
 
 void
-drawImage7 (Array<Rgba> &px, int w, int h, int y)
+drawImage7 (Array<Rgbad> &px, int w, int h, int y)
 {
     for (int x = 0; x < w; ++x)
     {
@@ -466,7 +466,7 @@ drawImage7 (Array<Rgba> &px, int w, int h, int y)
 	float a = atan2 (xc, yc);
 	float r = sqrt (xc * xc + yc * yc);
 
-	Rgba &p = px[x];
+	Rgbad &p = px[x];
 	p.r = sin (3.0f * a + 0.3f * sin (0.10f * r)) * 0.5f + 0.5f;
 	p.g = sin (3.0f * a + 0.3f * sin (0.11f * r)) * 0.5f + 0.5f;
 	p.b = sin (3.0f * a + 0.3f * sin (0.12f * r)) * 0.5f + 0.5f;

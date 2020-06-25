@@ -38,7 +38,7 @@
 
 //----------------------------------------------------------------------------
 //
-//        class ImageView -- draws an Imf::Rgba image in an OpenGl window
+//        class ImageView -- draws an Imf::Rgbad image in an OpenGl window
 //
 //----------------------------------------------------------------------------
 #include "namespaceAlias.h"
@@ -59,7 +59,7 @@ class ImageView: public Fl_Gl_Window
         ImageView (int x, int y,
                    int w, int h,            // display window width and height
                    const char label[],
-                   const IMF::Rgba pixels[/* w*h */],
+                   const IMF::Rgbad pixels[/* w*h */],
                    float* dataZ[/* w*h */],
                    unsigned int sampleCount[/* w*h */],
                    int zsize,
@@ -77,7 +77,7 @@ class ImageView: public Fl_Gl_Window
         virtual void        setDefog (float defog);
         virtual void        setKneeLow (float low);
         virtual void        setKneeHigh (float high);
-        virtual void        setPixels(const IMF::Rgba pixels[],
+        virtual void        setPixels(const IMF::Rgbad pixels[],
                                       float* dataZ[/* w*h */],
                                       unsigned int sampleCount[/* w*h */],
                                       int zsize,
@@ -101,7 +101,7 @@ class ImageView: public Fl_Gl_Window
         float                                _defog;
         float                                _kneeLow;
         float                                _kneeHigh;
-        const IMF::Rgba *                    _rawPixels;
+        const IMF::Rgbad *                    _rawPixels;
         float**                              _dataZ;
         unsigned int *                       _sampleCount;
         float                                _fogR;

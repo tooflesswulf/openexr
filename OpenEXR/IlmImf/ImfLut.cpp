@@ -95,7 +95,7 @@ HalfLut::apply (const Slice &data, const IMATH_NAMESPACE::Box2i &dataWindow) con
 
 
 void
-RgbaLut::apply (Rgba *data, int nData, int stride) const
+RgbaLut::apply (Rgbad *data, int nData, int stride) const
 {
     while (nData)
     {
@@ -118,15 +118,15 @@ RgbaLut::apply (Rgba *data, int nData, int stride) const
 
 
 void
-RgbaLut::apply (Rgba *base,
-		int xStride, int yStride,
-		const IMATH_NAMESPACE::Box2i &dataWindow) const
+RgbaLut::apply (Rgbad *base,
+                int xStride, int yStride,
+                const IMATH_NAMESPACE::Box2i &dataWindow) const
 {
     base += dataWindow.min.y * yStride;
 
     for (int y = dataWindow.min.y; y <= dataWindow.max.y; ++y)
     {
-	Rgba *pixel = base + dataWindow.min.x * xStride;
+	Rgbad *pixel = base + dataWindow.min.x * xStride;
 
 	for (int x = dataWindow.min.x; x <= dataWindow.max.x; ++x)
 	{

@@ -67,7 +67,7 @@ void	ImfHalfToFloatArray (int n,
 			    float f[/*n*/]);
 
 /*
-** RGBA pixel; memory layout must be the same as struct Imf::Rgba.
+** RGBA pixel; memory layout must be the same as struct Imf::Rgbad.
 */
 
 struct ImfRgba

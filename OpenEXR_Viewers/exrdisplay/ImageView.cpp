@@ -73,7 +73,7 @@ using namespace IMATH;
 ImageView::ImageView (int x, int y,
                       int w, int h,
                       const char label[],
-                      const IMF::Rgba pixels[],
+                      const IMF::Rgbad pixels[],
                       float* dataZ[],
                       unsigned int sampleCount[],
                       int zsize,
@@ -203,7 +203,7 @@ ImageView::findZbound()
 }
 
 void
-ImageView::setPixels(const IMF::Rgba pixels[/* w*h */],
+ImageView::setPixels(const IMF::Rgbad pixels[/* w*h */],
                      float* dataZ[/* w*h */],
                      unsigned int sampleCount[/* w*h */],
                      int zsize,
@@ -300,7 +300,7 @@ ImageView::computeFogColor ()
 
     for (int j = 0; j < _dw * _dh; ++j)
     {
-        const IMF::Rgba &rp = _rawPixels[j];
+        const IMF::Rgbad &rp = _rawPixels[j];
 
         if (rp.r.isFinite())
             _fogR += rp.r;
@@ -338,7 +338,7 @@ ImageView::drawChart (int x, int y, bool initChart)
                 printf ("pixel Z value  %d: %.3f\n", i, float(z[i]));
             }
 
-            const IMF::Rgba &p = _rawPixels[py * _dw + px];
+            const IMF::Rgbad &p = _rawPixels[py * _dw + px];
 
             cout << "R = " << p.r << ", G = " << p.g << ","
             " B = " << p.b <<endl;
@@ -429,7 +429,7 @@ ImageView::handle (int event)
 
             if (px >= 0 && px < _dw && py >= 0 && py < _dh)
             {
-                const IMF::Rgba &p = _rawPixels[py * _dw + px];
+                const IMF::Rgbad &p = _rawPixels[py * _dw + px];
 
                 sprintf (_rgbaBoxLabel,
                          "r = %.3g   g = %.3g   b = %.3g",
@@ -708,7 +708,7 @@ ImageView::updateScreenPixels ()
         for (int x = 0; x < _dw; ++x)
         {
             int j = i + x;
-            const IMF::Rgba &rp = _rawPixels[j];
+            const IMF::Rgbad &rp = _rawPixels[j];
             unsigned char *sp = _screenPixels + j * 3;
             sp[0] = dither (rGamma (rp.r), x, y);
             sp[1] = dither (gGamma (rp.g), x, y);

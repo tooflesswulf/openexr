@@ -54,13 +54,13 @@ using namespace IMATH_NAMESPACE;
 namespace {
 
 void
-waves (Array2D<Rgba> &pixels, int w, int h)
+waves (Array2D<Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = (0.5 + 0.5 * sin (0.1 * x + 0.1 * y)) +
 		  (0.5 + 0.5 * sin (-0.1 * x + 0.2 * y));
@@ -75,7 +75,7 @@ waves (Array2D<Rgba> &pixels, int w, int h)
 
 
 void
-wheel (Array2D<Rgba> &pixels, int w, int h)
+wheel (Array2D<Rgbad> &pixels, int w, int h)
 {
     float n = 40;
     float m = 0.5;
@@ -88,7 +88,7 @@ wheel (Array2D<Rgba> &pixels, int w, int h)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 	    float rad = sqrt ((x-xCen) * (x-xCen) + (y-yCen) * (y-yCen));
 
 	    if (rad <= radMax && rad >= radMin)
@@ -118,12 +118,12 @@ writeReadYa (Box2i &dw,
 	     int tileSizeX,
 	     int tileSizeY,
 	     const char fileName[],
-	     void (* fillPixels) (Array2D<Rgba> &pixels, int w, int h))
+	     void (* fillPixels) (Array2D<Rgbad> &pixels, int w, int h))
 {
     int w = dw.max.x - dw.min.x + 1;
     int h = dw.max.y - dw.min.y + 1;
-    Array2D <Rgba> pixels1 (h, w);
-    Array2D <Rgba> pixels2 (h, w);
+    Array2D <Rgbad> pixels1 (h, w);
+    Array2D <Rgbad> pixels2 (h, w);
 
     fillPixels (pixels1, w, h);
 
@@ -155,8 +155,8 @@ writeReadYa (Box2i &dw,
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    const Rgba &p1 = pixels1[y][x];
-	    const Rgba &p2 = pixels2[y][x];
+	    const Rgbad &p1 = pixels1[y][x];
+	    const Rgbad &p2 = pixels2[y][x];
 
 	    assert (p1.r == p2.r);
 	    assert (p1.g == p2.g);

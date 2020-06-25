@@ -185,7 +185,7 @@ blurImage (EnvmapImage &image1, bool verbose)
 	Box2i dw = iptr1->dataWindow();
 	int sof = CubeMap::sizeOfFace (dw);
 
-	Array2D<Rgba> &pixels = iptr1->pixels();
+	Array2D<Rgbad> &pixels = iptr1->pixels();
 
 	double weightTotal = 0;
 
@@ -283,7 +283,7 @@ blurImage (EnvmapImage &image1, bool verbose)
 		    else if (xEdge || yEdge)
 			weight /= 2;
 
-		    Rgba &pixel = pixels[toInt (pos.y)][toInt (pos.x)];
+		    Rgbad &pixel = pixels[toInt (pos.y)][toInt (pos.x)];
 
 		    pixel.r *= weight;
 		    pixel.g *= weight;
@@ -305,8 +305,8 @@ blurImage (EnvmapImage &image1, bool verbose)
 	size_t numPixels = w * h;
 	double weight = numPixels / weightTotal;
 
-	Rgba *p = &pixels[0][0];
-	Rgba *end = p + numPixels;
+	Rgbad *p = &pixels[0][0];
+	Rgbad *end = p + numPixels;
 
 	while (p < end)
 	{
@@ -332,8 +332,8 @@ blurImage (EnvmapImage &image1, bool verbose)
 	iptr2->resize (ENVMAP_CUBE, dw2);
 	iptr2->clear ();
 
-	Array2D<Rgba> &pixels1 = iptr1->pixels();
-	Array2D<Rgba> &pixels2 = iptr2->pixels();
+	Array2D<Rgbad> &pixels1 = iptr1->pixels();
+	Array2D<Rgbad> &pixels2 = iptr2->pixels();
 
 	for (int f2 = CUBEFACE_POS_X; f2 <= CUBEFACE_NEG_Z; ++f2)
 	{
@@ -360,7 +360,7 @@ blurImage (EnvmapImage &image1, bool verbose)
 		    double bTotal = 0;
 		    double aTotal = 0;
 
-		    Rgba &pixel2 =
+		    Rgbad &pixel2 =
 			pixels2[toInt (pos2.y)][toInt (pos2.x)];
 
 		    for (int f1 = CUBEFACE_POS_X; f1 <= CUBEFACE_NEG_Z; ++f1)
@@ -384,7 +384,7 @@ blurImage (EnvmapImage &image1, bool verbose)
 				if (weight <= 0)
 				    continue;
 
-				Rgba &pixel1 =
+				Rgbad &pixel1 =
 				    pixels1[toInt (pos1.y)][toInt (pos1.x)];
 
 				weightTotal += weight;
@@ -423,7 +423,7 @@ blurImage (EnvmapImage &image1, bool verbose)
 
 	int w = dw.max.x - dw.min.x + 1;
 	int h = dw.max.y - dw.min.y + 1;
-	size_t size = w * h * sizeof (Rgba);
+	size_t size = w * h * sizeof (Rgbad);
 
 	memcpy (&image1.pixels()[0][0], &iptr1->pixels()[0][0], size);
     }

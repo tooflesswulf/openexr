@@ -63,13 +63,13 @@ using namespace IMATH_NAMESPACE;
 namespace {
 
 void
-fillPixels (Array2D<Rgba> &pixels, int w, int h)
+fillPixels (Array2D<Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = 0.5 + 0.5 * sin (0.1 * x + 0.1 * y);
 	    p.g = 0.5 + 0.5 * sin (0.1 * x + 0.2 * y);
@@ -93,7 +93,7 @@ writeImageONE (const char fileName[],
     header.lineOrder() = INCREASING_Y;
     header.compression() = comp;
     
-    Array2D<Rgba> pixels (height, width);
+    Array2D<Rgbad> pixels (height, width);
     fillPixels (pixels, width, height);
 
     if(parts==1)
@@ -116,10 +116,10 @@ writeImageONE (const char fileName[],
         
         
         FrameBuffer f;
-        f.insert("R",Slice(HALF,(char *) &(pixels[0][0].r),sizeof(Rgba),width*sizeof(Rgba)));
-        f.insert("G",Slice(HALF,(char *) &(pixels[0][0].g),sizeof(Rgba),width*sizeof(Rgba)));
-        f.insert("B",Slice(HALF,(char *) &(pixels[0][0].b),sizeof(Rgba),width*sizeof(Rgba)));
-        f.insert("A",Slice(HALF,(char *) &(pixels[0][0].a),sizeof(Rgba),width*sizeof(Rgba)));
+        f.insert("R",Slice(HALF, (char *) &(pixels[0][0].r), sizeof(Rgbad), width * sizeof(Rgbad)));
+        f.insert("G",Slice(HALF, (char *) &(pixels[0][0].g), sizeof(Rgbad), width * sizeof(Rgbad)));
+        f.insert("B",Slice(HALF, (char *) &(pixels[0][0].b), sizeof(Rgbad), width * sizeof(Rgbad)));
+        f.insert("A",Slice(HALF, (char *) &(pixels[0][0].a), sizeof(Rgbad), width * sizeof(Rgbad)));
         
         
         vector<Header> headers(parts);
@@ -161,7 +161,7 @@ readImageONE (const char fileName[])
         int dwx = dw.min.x;
         int dwy = dw.min.y;
         
-        Array2D<Rgba> pixels (h, w);
+        Array2D<Rgbad> pixels (h, w);
         in.setFrameBuffer (&pixels[-dwy][-dwx], 1, w);
         in.readTiles (0, in.numXTiles() - 1, 0, in.numYTiles() - 1);
     }
@@ -184,12 +184,12 @@ readImageONE (const char fileName[])
             int dwx = dw.min.x;
             int dwy = dw.min.y;
             
-            Array2D<Rgba> pixels (h, w);
+            Array2D<Rgbad> pixels (h, w);
             FrameBuffer i;
-            i.insert("R",Slice(HALF,(char *)&(pixels[-dwy][-dwx].r),sizeof(Rgba),w*sizeof(Rgba)));
-            i.insert("G",Slice(HALF,(char *)&(pixels[-dwy][-dwx].g),sizeof(Rgba),w*sizeof(Rgba)));
-            i.insert("B",Slice(HALF,(char *)&(pixels[-dwy][-dwx].b),sizeof(Rgba),w*sizeof(Rgba)));
-            i.insert("A",Slice(HALF,(char *)&(pixels[-dwy][-dwx].a),sizeof(Rgba),w*sizeof(Rgba)));
+            i.insert("R",Slice(HALF, (char *)&(pixels[-dwy][-dwx].r), sizeof(Rgbad), w * sizeof(Rgbad)));
+            i.insert("G",Slice(HALF, (char *)&(pixels[-dwy][-dwx].g), sizeof(Rgbad), w * sizeof(Rgbad)));
+            i.insert("B",Slice(HALF, (char *)&(pixels[-dwy][-dwx].b), sizeof(Rgbad), w * sizeof(Rgbad)));
+            i.insert("A",Slice(HALF, (char *)&(pixels[-dwy][-dwx].a), sizeof(Rgbad), w * sizeof(Rgbad)));
             
             inpart.setFrameBuffer (i);
             inpart.readTiles (0, inpart.numXTiles() - 1, 0, inpart.numYTiles() - 1);
@@ -215,7 +215,7 @@ writeImageMIP (const char fileName[],
     header.lineOrder() = INCREASING_Y;
     header.compression() = comp;
     
-    Array < Array2D<Rgba> > levels;
+    Array < Array2D<Rgbad> > levels;
 
     TiledRgbaOutputFile out (fileName, header, WRITE_RGBA,
 			     xSize, ySize, MIPMAP_LEVELS, ROUND_DOWN);
@@ -254,7 +254,7 @@ readImageMIP (const char fileName[])
         int dwy = dw.min.y;
 
         int numLevels = in.numLevels();
-        Array < Array2D<Rgba> > levels2 (numLevels);
+        Array < Array2D<Rgbad> > levels2 (numLevels);
         
         for (int level = 0; level < numLevels; ++level)
         {
@@ -287,7 +287,7 @@ writeImageRIP (const char fileName[],
     header.lineOrder() = INCREASING_Y;
     header.compression() = comp;
     
-    Array2D < Array2D<Rgba> > levels;
+    Array2D < Array2D<Rgbad> > levels;
 
     TiledRgbaOutputFile out (fileName, header, WRITE_RGBA,
 			     xSize, ySize, RIPMAP_LEVELS, ROUND_UP);
@@ -330,7 +330,7 @@ readImageRIP (const char fileName[])
         
         int numXLevels = in.numXLevels();
         int numYLevels = in.numYLevels();
-	Array2D < Array2D<Rgba> > levels2 (numYLevels, numXLevels);
+	Array2D < Array2D<Rgbad> > levels2 (numYLevels, numXLevels);
         
         for (int ylevel = 0; ylevel < numYLevels; ++ylevel)
         {

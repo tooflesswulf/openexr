@@ -103,7 +103,7 @@ exr2aces (const char inFileName[],
 	  const char outFileName[],
 	  bool verbose)
 {
-    Array2D<Rgba> p;
+    Array2D<Rgbad> p;
     Header h;
     RgbaChannels ch;
     Box2i dw;

@@ -178,7 +178,7 @@ class IMF_EXPORT AcesOutputFile
     //
     //------------------------------------------------
 
-    void			setFrameBuffer (const Rgba *base,
+    void			setFrameBuffer (const Rgbad *base,
 						size_t xStride,
 						size_t yStride);
 
@@ -268,9 +268,9 @@ class IMF_EXPORT AcesInputFile
     //
     //-----------------------------------------------------
 
-    void			setFrameBuffer (Rgba *base,
-						size_t xStride,
-						size_t yStride);
+    void			setFrameBuffer (Rgbad *base,
+                                    size_t xStride,
+                                    size_t yStride);
 
 
     //--------------------------------------------

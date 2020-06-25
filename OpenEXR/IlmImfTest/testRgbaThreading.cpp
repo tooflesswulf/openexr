@@ -56,13 +56,13 @@ namespace {
 Rand32 rand1 (27);
 
 void
-fillPixels (Array2D<Rgba> &pixels, int w, int h)
+fillPixels (Array2D<Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = 0.5 + 0.5 * sin (0.1 * x + 0.1 * y);
 	    p.g = 0.5 + 0.5 * sin (0.1 * x + 0.2 * y);
@@ -77,7 +77,7 @@ void
 writeReadRGBA (const char fileName[],
 	       int width,
 	       int height,
-	       const Array2D<Rgba> &p1,
+	       const Array2D<Rgbad> &p1,
 	       RgbaChannels channels,
 	       LineOrder lorder,
 	       Compression comp)
@@ -129,7 +129,7 @@ writeReadRGBA (const char fileName[],
 	int dx = dw.min.x;
 	int dy = dw.min.y;
 
-	Array2D<Rgba> p2 (h, w);
+	Array2D<Rgbad> p2 (h, w);
 	in.setFrameBuffer (&p2[-dy][-dx], 1, w);
 	in.readPixels (dw.min.y, dw.max.y);
 
@@ -219,7 +219,7 @@ testRgbaThreading (const std::string &tempDir)
 	const int W = 237;
 	const int H = 119;
 
-	Array2D<Rgba> p1 (H, W);
+	Array2D<Rgbad> p1 (H, W);
 	fillPixels (p1, W, H);
 
         for (int n = 0; n <= 8; n++)

@@ -89,7 +89,7 @@ EnvmapImage::clear ()
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = _pixels[y][x];
+	    Rgbad &p = _pixels[y][x];
 
 	    p.r = 0;
 	    p.g = 0;
@@ -114,14 +114,14 @@ EnvmapImage::dataWindow () const
 }
 
 
-Array2D<Rgba> &
+Array2D<Rgbad> &
 EnvmapImage::pixels ()
 {
     return _pixels;
 }
 
 
-const Array2D<Rgba> &
+const Array2D<Rgbad> &
 EnvmapImage::pixels () const
 {
     return _pixels;
@@ -150,7 +150,7 @@ dirToPosCube (const Box2i &dataWindow, const V3f &dir)
 } // namespace
 
 
-Rgba
+Rgbad
 EnvmapImage::filteredLookup (V3f d, float r, int n) const
 {
     //
@@ -211,7 +211,7 @@ EnvmapImage::filteredLookup (V3f d, float r, int n) const
 	    float wx = 1 - abs (rx);
 	    V3f ddx (rx * dx);
 	    
-	    Rgba s = sample (dirToPos (_dataWindow, d + ddx + ddy));
+	    Rgbad s = sample (dirToPos (_dataWindow, d + ddx + ddy));
 
 	    float w = wx * wy;
 	    wt += w;
@@ -225,7 +225,7 @@ EnvmapImage::filteredLookup (V3f d, float r, int n) const
 
     wt = 1 / wt;
 
-    Rgba c;
+    Rgbad c;
 
     c.r = cr * wt;
     c.g = cg * wt;
@@ -236,7 +236,7 @@ EnvmapImage::filteredLookup (V3f d, float r, int n) const
 }
 
 
-Rgba
+Rgbad
 EnvmapImage::sample (const V2f &pos) const
 {
     //
@@ -260,12 +260,12 @@ EnvmapImage::sample (const V2f &pos) const
     y1 = clamp (y1, _dataWindow.min.y, _dataWindow.max.y) - _dataWindow.min.y;
     y2 = clamp (y2, _dataWindow.min.y, _dataWindow.max.y) - _dataWindow.min.y;
 
-    Rgba p11 = _pixels[y1][x1];
-    Rgba p12 = _pixels[y1][x2];
-    Rgba p21 = _pixels[y2][x1];
-    Rgba p22 = _pixels[y2][x2];
+    Rgbad p11 = _pixels[y1][x1];
+    Rgbad p12 = _pixels[y1][x2];
+    Rgbad p21 = _pixels[y2][x1];
+    Rgbad p22 = _pixels[y2][x2];
 
-    Rgba p;
+    Rgbad p;
     p.r = (p11.r * sx + p12.r * tx) * sy + (p21.r * sx + p22.r * tx) * ty;
     p.g = (p11.g * sx + p12.g * tx) * sy + (p21.g * sx + p22.g * tx) * ty;
     p.b = (p11.b * sx + p12.b * tx) * sy + (p21.b * sx + p22.b * tx) * ty;

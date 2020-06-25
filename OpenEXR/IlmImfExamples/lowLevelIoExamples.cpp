@@ -166,7 +166,7 @@ C_OStream::seekp (Int64 pos)
 void
 writeRgbaFILE (FILE *cfile,
 	       const char fileName[],
-	       const Rgba *pixels,
+	       const Rgbad *pixels,
 	       int width,
 	       int height)
 {
@@ -190,7 +190,7 @@ writeRgbaFILE (FILE *cfile,
 void
 readRgbaFILE (FILE *cfile,
 	      const char fileName[],
-	      Array2D<Rgba> &pixels,
+	      Array2D<Rgbad> &pixels,
 	      int &width,
 	      int &height)
 {
@@ -227,7 +227,7 @@ lowLevelIoExamples ()
     int h = 600;
     const char *fileName = "rgba4.exr";
 
-    Array2D<Rgba> p (h, w);
+    Array2D<Rgbad> p (h, w);
     drawImage1 (p, w, h);
 
     //

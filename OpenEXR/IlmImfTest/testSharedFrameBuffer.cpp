@@ -65,7 +65,7 @@ int remainingScanlines = 0;
 
 
 void
-fillPixels (Array2D<Rgba> &pixels, int w, int h)
+fillPixels (Array2D<Rgbad> &pixels, int w, int h)
 {
     assert (sizeof (int) == sizeof (float));
     
@@ -73,7 +73,7 @@ fillPixels (Array2D<Rgba> &pixels, int w, int h)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = x % 100 + 100 * (y % 100) +
 		  rand1.nextf (-0.01f, -0.01f);
@@ -180,7 +180,7 @@ void
 writeReadRGBA (const char fileName[],
 	       int width,
 	       int height,
-	       const Array2D<Rgba> &p1,
+	       const Array2D<Rgbad> &p1,
 	       RgbaChannels channels,
 	       Compression comp)
 {
@@ -223,7 +223,7 @@ writeReadRGBA (const char fileName[],
 	int dx = dw.min.x;
 	int dy = dw.min.y;
 
-	Array2D<Rgba> p2 (h, w);
+	Array2D<Rgbad> p2 (h, w);
 	in.setFrameBuffer (&p2[-dy][-dx], 1, w);
         
         {
@@ -308,7 +308,7 @@ testSharedFrameBuffer (const std::string &tempDir)
 	const int W = 1371;
 	const int H = 159;
         
-	Array2D<Rgba> p1 (H, W);
+	Array2D<Rgbad> p1 (H, W);
 	fillPixels (p1, W, H);
         
         for (int n = 0; n <= 8; n++)

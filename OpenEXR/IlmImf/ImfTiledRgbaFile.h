@@ -163,7 +163,7 @@ class IMF_EXPORT TiledRgbaOutputFile
     //
     //------------------------------------------------
 
-    void		setFrameBuffer (const Rgba *base,
+    void		setFrameBuffer (const Rgbad *base,
 					size_t xStride,
 					size_t yStride);
 
@@ -350,9 +350,9 @@ class IMF_EXPORT TiledRgbaInputFile
     //
     //-----------------------------------------------------
 
-    void			setFrameBuffer (Rgba *base,
-						size_t xStride,
-						size_t yStride);
+    void			setFrameBuffer (Rgbad *base,
+                                    size_t xStride,
+                                    size_t yStride);
 
     //-------------------------------------------------------------------
     // Switch to a different layer -- subsequent calls to readTile()

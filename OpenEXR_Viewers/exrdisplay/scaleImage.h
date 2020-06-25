@@ -71,20 +71,20 @@ void	scaleX (float f,
 		int &w, int &h,
 		int &dw, int &dh,
 		int &dx, int &dy,
-		IMF::Array<IMF::Rgba> &pixels);
+		IMF::Array<IMF::Rgbad> &pixels);
 
 void	scaleY (float f, 
 		int &w, int &h, 
 		int &dw, int &dh,
 		int &dx, int &dy,
-		IMF::Array<IMF::Rgba> &pixels);
+		IMF::Array<IMF::Rgbad> &pixels);
 
 //
 // Normalize the pixel values in an image so that the smallest
 // value becomes 0.0 and the largest value becomes 1.0.
 //
 
-void	normalizePixels (int dw, int dh, IMF::Array<IMF::Rgba> &pixels);
+void	normalizePixels (int dw, int dh, IMF::Array<IMF::Rgbad> &pixels);
 
 
 //
@@ -93,7 +93,7 @@ void	normalizePixels (int dw, int dh, IMF::Array<IMF::Rgba> &pixels);
 // end up in the center.
 //
 
-void	swapPixels (int dw, int dh, IMF::Array<IMF::Rgba> &pixels);
+void	swapPixels (int dw, int dh, IMF::Array<IMF::Rgbad> &pixels);
 
 
 #endif

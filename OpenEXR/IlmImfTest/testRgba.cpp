@@ -61,16 +61,16 @@ rgbaMethods ()
 {
     //
     // Verify that the constructors and the assignment
-    // operator for struct Rgba work.
+    // operator for struct Rgbad work.
     //
 
-    Rgba x (2.f, 3.f, 4.f);
+    Rgbad x (2.f, 3.f, 4.f);
     assert (x.r == 2.f && x.g == 3.f && x.b == 4.f && x.a == 1.f);
 
-    Rgba y (5.f, 6.f, 7.f, 0.f);
+    Rgbad y (5.f, 6.f, 7.f, 0.f);
     assert (y.r == 5.f && y.g == 6.f && y.b == 7.f && y.a == 0.f);
 
-    Rgba z;
+    Rgbad z;
 
     z = x;
     assert (z.r == 2.f && z.g == 3.f && z.b == 4.f && z.a == 1.f);
@@ -78,19 +78,19 @@ rgbaMethods ()
     z = y;
     assert (z.r == 5.f && z.g == 6.f && z.b == 7.f && z.a == 0.f);
 
-    Rgba w (z);
+    Rgbad w (z);
     assert (w.r == 5.f && w.g == 6.f && w.b == 7.f && w.a == 0.f);
 }
 
 
 void
-fillPixels (Array2D<Rgba> &pixels, int w, int h)
+fillPixels (Array2D<Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = 0.5 + 0.5 * sin (0.1 * x + 0.1 * y);
 	    p.g = 0.5 + 0.5 * sin (0.1 * x + 0.2 * y);
@@ -105,7 +105,7 @@ void
 writeReadRGBA (const char fileName[],
 	       int width,
 	       int height,
-	       const Array2D<Rgba> &p1,
+	       const Array2D<Rgbad> &p1,
 	       RgbaChannels channels,
 	       LineOrder lorder,
 	       Compression comp)
@@ -150,7 +150,7 @@ writeReadRGBA (const char fileName[],
 	int dx = dw.min.x;
 	int dy = dw.min.y;
 
-	Array2D<Rgba> p2 (h, w);
+	Array2D<Rgbad> p2 (h, w);
 	in.setFrameBuffer (&p2[-dy][-dx], 1, w);
 	in.readPixels (dw.min.y, dw.max.y);
 
@@ -223,11 +223,11 @@ writeReadIncomplete (const std::string &tempDir)
     const int width = 400;
     const int height = 300;
 
-    Array2D<Rgba> p1 (height, width);
+    Array2D<Rgbad> p1 (height, width);
 
     for (int y = 0; y < height; ++y)
 	for (int x = 0; x < width; ++x)
-	    p1[y][x] = Rgba (x % 5, x % 17, y % 23, y % 29);
+	    p1[y][x] = Rgbad (x % 5, x % 17, y % 23, y % 29);
 
     {
         cout << "writing" << endl;
@@ -248,11 +248,11 @@ writeReadIncomplete (const std::string &tempDir)
     }
 
     {
-	Array2D<Rgba> p2 (height, width);
+	Array2D<Rgbad> p2 (height, width);
 
 	for (int y = 0; y < height; ++y)
 	    for (int x = 0; x < width; ++x)
-		p2[y][x] = Rgba (-1, -1, -1, -1);
+		p2[y][x] = Rgbad (-1, -1, -1, -1);
 
         cout << "reading one scan line at a time," << flush;
 
@@ -296,8 +296,8 @@ writeReadIncomplete (const std::string &tempDir)
 	{
 	    for (int x = 0; x < width; ++x)
 	    {
-		const Rgba &s = p1[y][x];
-		const Rgba &t = p2[y][x];
+		const Rgbad &s = p1[y][x];
+		const Rgbad &t = p2[y][x];
 
 		if (y < height / 2 && y != 10 && y != 25)
 		{
@@ -318,11 +318,11 @@ writeReadIncomplete (const std::string &tempDir)
     }
 
     {
-	Array2D<Rgba> p2 (height, width);
+	Array2D<Rgbad> p2 (height, width);
 
 	for (int y = 0; y < height; ++y)
 	    for (int x = 0; x < width; ++x)
-		p2[y][x] = Rgba (-1, -1, -1, -1);
+		p2[y][x] = Rgbad (-1, -1, -1, -1);
 
         cout << "reading multiple scan lines at a time," << flush;
 
@@ -360,8 +360,8 @@ writeReadIncomplete (const std::string &tempDir)
 	{
 	    for (int x = 0; x < width; ++x)
 	    {
-		const Rgba &s = p1[y][x];
-		const Rgba &t = p2[y][x];
+		const Rgbad &s = p1[y][x];
+		const Rgbad &t = p2[y][x];
 
 		assert ((t.r == -1  && t.g == -1  && t.b == -1  && t.a == -1) ||
 			(t.r == s.r && t.g == s.g && t.b == s.b && t.a == s.a));
@@ -422,7 +422,7 @@ writeReadLayers (const std::string &tempDir)
     {
 	RgbaInputFile in (fileName.c_str(), "");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readPixels (0, H - 1);
 
@@ -441,7 +441,7 @@ writeReadLayers (const std::string &tempDir)
     {
 	RgbaInputFile in (fileName.c_str(), "foo");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readPixels (0, H - 1);
 
@@ -460,7 +460,7 @@ writeReadLayers (const std::string &tempDir)
     {
 	RgbaInputFile in (fileName.c_str(), "");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readPixels (0, H / 2 - 1);
@@ -513,7 +513,7 @@ writeReadLayers (const std::string &tempDir)
     {
 	RgbaInputFile in (fileName.c_str(), "");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readPixels (0, H - 1);
 
@@ -532,7 +532,7 @@ writeReadLayers (const std::string &tempDir)
     {
 	RgbaInputFile in (fileName.c_str(), "foo");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readPixels (0, H - 1);
 
@@ -551,7 +551,7 @@ writeReadLayers (const std::string &tempDir)
     {
 	RgbaInputFile in (fileName.c_str(), "");
 
-	Array2D<Rgba> p3 (H, W);
+	Array2D<Rgbad> p3 (H, W);
 
 	in.setFrameBuffer (&p3[0][0], 1, W);
 	in.readPixels (0, H / 2 - 1);
@@ -602,7 +602,7 @@ testRgba (const std::string &tempDir)
 	const int W = 237;
 	const int H = 119;
 
-	Array2D<Rgba> p1 (H, W);
+	Array2D<Rgbad> p1 (H, W);
 	fillPixels (p1, W, H);
 
 	int maxThreads = ILMTHREAD_NAMESPACE::supportsThreads()? 3: 0;

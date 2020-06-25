@@ -53,13 +53,13 @@ using namespace IMATH_NAMESPACE;
 namespace {
 
 void
-fillPixelsColor (Array2D <Rgba> &pixels, int w, int h)
+fillPixelsColor (Array2D <Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = 0.8 + 0.5 * sin (x * 0.05);
 	    p.g = 0.8 + 0.5 * sin (x * 0.02 + y * 0.02);
@@ -77,13 +77,13 @@ fillPixelsColor (Array2D <Rgba> &pixels, int w, int h)
 
 
 void
-fillPixelsGray (Array2D <Rgba> &pixels, int w, int h)
+fillPixelsGray (Array2D <Rgbad> &pixels, int w, int h)
 {
     for (int y = 0; y < h; ++y)
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    Rgba &p = pixels[y][x];
+	    Rgbad &p = pixels[y][x];
 
 	    p.r = 0.8 + 0.5 * sin (x * 0.05 - y * 0.05);
 	    p.g = p.r;
@@ -100,12 +100,12 @@ writeReadYca (const char fileName[],
 	      RgbaChannels channels,
 	      LineOrder writeOrder,
 	      LineOrder readOrder,
-	      void (* fillPixels) (Array2D <Rgba> &pixels, int w, int h))
+	      void (* fillPixels) (Array2D <Rgbad> &pixels, int w, int h))
 {
     int w = dw.max.x - dw.min.x + 1;
     int h = dw.max.y - dw.min.y + 1;
-    Array2D <Rgba> pixels1 (h, w);
-    Array2D <Rgba> pixels2 (h, w);
+    Array2D <Rgbad> pixels1 (h, w);
+    Array2D <Rgbad> pixels2 (h, w);
 
     cout << w << " by " << h << " pixels, "
 	    "channels " << channels << ", "
@@ -174,8 +174,8 @@ writeReadYca (const char fileName[],
     {
 	for (int x = 0; x < w; ++x)
 	{
-	    const Rgba &p1 = pixels1[y][x];
-	    const Rgba &p2 = pixels2[y][x];
+	    const Rgbad &p1 = pixels1[y][x];
+	    const Rgbad &p2 = pixels2[y][x];
 
 	    if (channels & WRITE_C)
 	    {

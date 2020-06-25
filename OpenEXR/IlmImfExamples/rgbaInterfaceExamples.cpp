@@ -61,7 +61,7 @@ using namespace IMATH_NAMESPACE;
 
 void
 writeRgba1 (const char fileName[],
-	    const Rgba *pixels,
+	    const Rgbad *pixels,
 	    int width,
 	    int height)
 {
@@ -82,7 +82,7 @@ writeRgba1 (const char fileName[],
 
 void
 writeRgba2 (const char fileName[],
-	    const Rgba *pixels,
+	    const Rgbad *pixels,
 	    int width,
 	    int height,
 	    const Box2i &dataWindow)
@@ -106,7 +106,7 @@ writeRgba2 (const char fileName[],
 
 void
 writeRgba3 (const char fileName[],
-	    const Rgba *pixels,
+	    const Rgbad *pixels,
 	    int width,
 	    int height,
 	    const char comments[],
@@ -134,7 +134,7 @@ writeRgba3 (const char fileName[],
 
 void
 readRgba1 (const char fileName[],
-	   Array2D<Rgba> &pixels,
+	   Array2D<Rgbad> &pixels,
 	   int &width,
 	   int &height)
 {
@@ -181,7 +181,7 @@ readRgba2 (const char fileName[])
 
     int width  = dw.max.x - dw.min.x + 1;
     int height = dw.max.y - dw.min.y + 1;
-    Array2D<Rgba> pixels (10, width);
+    Array2D<Rgbad> pixels (10, width);
 
     while (dw.min.y <= dw.max.y)
     {
@@ -234,7 +234,7 @@ rgbaInterfaceExamples ()
     int w = 800;
     int h = 600;
 
-    Array2D<Rgba> p (h, w);
+    Array2D<Rgbad> p (h, w);
     drawImage1 (p, w, h);
 
     cout << "writing entire image" << endl;
